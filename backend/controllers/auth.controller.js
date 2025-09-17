@@ -38,10 +38,68 @@ export const signUp = async (req, res) => {
 
         return res.status(200).json({
             success: true,
+            message: "User Created Successfully!",
             user
         })
 
     } catch (error) {
         console.log(`Sign Up Error : ${error}`)
+        return res.status(400).json({
+            success: false,
+            error: error,
+            message: "Sign Up Error"
+        })
+    }
+}
+
+export const login = async (req, res) => {
+    try {
+        let { email, password } = req.body;
+
+        if ([email, password].some(field => !field || field.trim() === "")) {
+            return res.status(400).json({
+                success: false,
+                error: "All Fields must be filled"
+            })
+        }
+
+        const existingUser = await User.findOne({ email });
+        if (!existingUser) {
+            return res.status(404).json({
+                success: false,
+                error: "User not found"
+            });
+        }
+
+        let isCorrectPassword = await bcrypt.compare(password, existingUser.password);
+        if (!isCorrectPassword) {
+            return res.status(401).json({
+                success: false,
+                error: "Invalid credentials"
+            });
+        }
+
+
+        let token = await generateToken(existingUser._id);
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "User Logged In Successfully!",
+            existingUser
+        })
+    } catch (error) {
+        console.log(`Log in Error : ${error}`)
+        return res.status(400).json({
+            success: false,
+            error: error,
+            message: "Log In Error"
+        })
     }
 }
