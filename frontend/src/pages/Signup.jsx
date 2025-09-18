@@ -1,17 +1,38 @@
 import { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Signup() {
+  let [showPassword, setShowPassword] = useState(true);
+  let [userName, setUserName] = useState("");
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
+  let navigate = useNavigate();
 
-  let [password, setShowPassword] = useState(true);
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      let response = await axios.post(
+        "http://localhost:8000/api/v2/signup",
+        { userName, email, password },
+        { withCredentials: true }
+      );
+      console.log(response.data);
+      setEmail("");
+      setUserName("");
+      setPassword("");
+      navigate("/");
+    } catch (error) {
+      console.log(`Error Occurred in SignUp API : ${error}`);
+    }
+  };
 
   return (
     <>
       <div className="relative w-screen h-screen flex justify-center items-center bg-gray-50 p-10 overflow-scroll">
-        <div className="container w-[900px] h-[600px] flex shadow-xl border-[1px] border-[#0000006e] border-solid rounded-[30px] ">
+        <div className="container w-[900px] h-[80vh] flex shadow-xl border-[1px] border-[#0000006e] border-solid rounded-[30px] ">
           <div
             id="left-section"
             className=" sm:w-1/2 w-full h-full bg-white rounded-[inherit]"
@@ -19,6 +40,7 @@ function Signup() {
             <form
               action=""
               className="w-full h-full flex flex-col justify-around p-5"
+              onSubmit={handleSignup}
             >
               <h1 className="w-full h-[20%] text-4xl font-semibold flex items-center justify-center">
                 Sign UP
@@ -34,6 +56,7 @@ function Signup() {
                   required
                   autoFocus
                   className="w-full h-[40px] bg-gray-200 p-3 rounded-lg"
+                  onChange={(e) => setUserName(e.target.value)}
                 />
                 <label htmlFor="">Email</label>
                 <input
@@ -41,24 +64,25 @@ function Signup() {
                   placeholder="Enter Your Email"
                   required
                   className="w-full h-[40px] bg-gray-200 p-3 rounded-lg"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <label htmlFor="">Password</label>
                 <div className="w-full flex">
                   <input
-                    type={password ? "password" : "text"}
+                    type={showPassword ? "password" : "text"}
                     placeholder="Set a new Password"
                     className="w-[90%] h-[40px] bg-gray-200 p-3 rounded-lg"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <div
                     className="w-[10%] h-[40px] bg-gray-200 flex items-center justify-center rounded-lg"
                     onClick={() => setShowPassword((prev) => !prev)}
                   >
-                    {password ? (
+                    {showPassword ? (
                       <FaEyeSlash className="text-2xl" />
                     ) : (
                       <FaEye className="text-2xl" />
                     )}
-
                   </div>
                 </div>
               </section>
@@ -72,7 +96,7 @@ function Signup() {
                 >
                   Sign UP
                 </button>
-                <span className="mt-2">
+                <span className="mt-4">
                   Already Have a account ? <Link to="/login">Login</Link>{" "}
                 </span>
               </div>

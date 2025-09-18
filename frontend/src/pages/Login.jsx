@@ -9,7 +9,7 @@ function Signup() {
   return (
     <>
       <div className="relative w-screen h-screen flex justify-center items-center bg-gray-50 p-10 overflow-scroll">
-        <div className="container w-[900px] h-[500px] flex shadow-xl border-[1px] border-[#0000006e] border-solid rounded-[30px] ">
+        <div className="container w-[900px] h-[450px] flex shadow-xl border-[1px] border-[#0000006e] border-solid rounded-[30px] ">
           <div
             id="left-section"
             className=" sm:w-1/2 w-full h-full bg-white rounded-[inherit]"
@@ -61,7 +61,7 @@ function Signup() {
                 >
                   Login
                 </button>
-                <span className="mt-2">
+                <span className="mt-2 text-[0.8rem] md:text-[1rem]">
                   Want to create a new account ?{" "}
                   <Link to="/signup">Signup</Link>{" "}
                 </span>

@@ -11,6 +11,10 @@ let port = process.env.PORT || 3000;
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+    origin: ["http://localhost:5173"],
+    credentials: true
+}))
 
 // Routes
 app.use("/api/v2", authRouter);
