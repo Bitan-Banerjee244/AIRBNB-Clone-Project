@@ -3,6 +3,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function Signup() {
   let [showPassword, setShowPassword] = useState(true);
@@ -19,13 +20,15 @@ function Signup() {
         { userName, email, password },
         { withCredentials: true }
       );
-      console.log(response.data);
+      // console.log(response.data);
+      toast.success(response.data.message);
       setEmail("");
       setUserName("");
       setPassword("");
       navigate("/");
     } catch (error) {
       console.log(`Error Occurred in SignUp API : ${error}`);
+      toast.error(response.data.message);
     }
   };
 
@@ -60,7 +63,7 @@ function Signup() {
                 />
                 <label htmlFor="">Email</label>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Enter Your Email"
                   required
                   className="w-full h-[40px] bg-gray-200 p-3 rounded-lg"
