@@ -1,10 +1,34 @@
+import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
-  let [password, setShowPassword] = useState(true);
+  let [showPassword, setShowPassword] = useState(true);
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
+  let navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      let response = await axios.post(
+        "http://localhost:8000/api/v2/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      toast.success(response?.data.message);
+      navigate("/");
+      setPassword("");
+      setEmail("");
+      // console.log(response.data);
+    } catch (error) {
+      console.log(`Error Occurred in Login Component : ${error}`);
+      toast.error(error.response?.data?.message || "Login failed");
+    }
+  };
 
   return (
     <>
@@ -17,6 +41,7 @@ function Signup() {
             <form
               action=""
               className="w-full h-full flex flex-col justify-around p-5"
+              onSubmit={handleLogin}
             >
               <h1 className="w-full h-[20%] text-4xl font-semibold flex items-center justify-center">
                 Log In
@@ -27,23 +52,25 @@ function Signup() {
               >
                 <label htmlFor="">Email</label>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Enter Your Email"
                   required
                   className="w-full h-[40px] bg-gray-200 p-3 rounded-lg"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <label htmlFor="">Password</label>
                 <div className="w-full flex">
                   <input
-                    type={password ? "password" : "text"}
+                    type={showPassword ? "password" : "text"}
                     placeholder="Enter Your Password"
                     className="w-[90%] h-[40px] bg-gray-200 p-3 rounded-lg"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <div
                     className="w-[10%] h-[40px] bg-gray-200 flex items-center justify-center rounded-lg"
                     onClick={() => setShowPassword((prev) => !prev)}
                   >
-                    {password ? (
+                    {showPassword ? (
                       <FaEyeSlash className="text-2xl" />
                     ) : (
                       <FaEye className="text-2xl" />
