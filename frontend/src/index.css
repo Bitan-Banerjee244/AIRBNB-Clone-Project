@@ -16,6 +16,10 @@ body {
   height: 100vh;
 }
 
-input{
+input {
   outline: none;
+}
+
+#bottom-nav::-webkit-scrollbar {
+  display: none;
 }

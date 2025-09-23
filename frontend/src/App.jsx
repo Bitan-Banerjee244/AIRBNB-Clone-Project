@@ -2,23 +2,25 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import getCurrentUser from "./hooks/getCurrentUser";
 import { useSelector } from "react-redux";
+import useCurrentUser from "./hooks/useCurrentUser";
+import { useEffect } from "react";
 
 function App() {
-  let currentUser = getCurrentUser();
-  let user = useSelector((state) => state.user.currentUser);
+  
+  let currentUser = useCurrentUser();
+  // let user = useSelector((state) => state.user.currentUser);
 
   return (
     <>
       <Routes>
         <Route
           path="/signup"
-          element={!user ? <Signup /> : <Navigate to="/" />}
+          element={!currentUser ? <Signup /> : <Navigate to="/" />}
         ></Route>
         <Route
           path="/login"
-          element={!user ? <Login /> : <Navigate to="/" />}
+          element={!currentUser ? <Login /> : <Navigate to="/" />}
         ></Route>
         <Route path="/" element={<Home />}></Route>
       </Routes>
