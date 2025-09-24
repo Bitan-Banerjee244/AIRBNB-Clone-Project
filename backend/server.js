@@ -5,6 +5,7 @@ import connectDB from "./db/db.js";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.routes.js";
+import listRouter from "./routes/listing.route.js";
 
 const app = express();
 let port = process.env.PORT || 3000;
@@ -20,6 +21,7 @@ app.use(cors({
 // Routes
 app.use("/api/v2", authRouter);
 app.use("/api/v2", userRouter);
+app.use("/api/v2", listRouter);
 
 
 app.get("/", (req, res) => {
