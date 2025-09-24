@@ -30,7 +30,7 @@ let listingSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    category: { type: String },
+    category: { type: String, default: "Houses" },
 
 }, { timestamps: true })
 

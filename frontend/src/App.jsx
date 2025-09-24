@@ -3,10 +3,12 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import useCurrentUser from "./hooks/useCurrentUser";
+import useListing from "./hooks/useListing";
 
 function App() {
   
   let currentUser = useCurrentUser();
+  useListing()
 
   return (
     <>

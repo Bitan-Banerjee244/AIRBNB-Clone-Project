@@ -3,8 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaHouseChimney } from "react-icons/fa6";
 import { FaBuilding } from "react-icons/fa";
-import { MdVilla } from "react-icons/md";
-import { MdBungalow } from "react-icons/md";
+import { MdVilla, MdBungalow } from "react-icons/md";
 import { PiWarehouseFill } from "react-icons/pi";
 import { BsHousesFill } from "react-icons/bs";
 import { GiFamilyHouse } from "react-icons/gi";
@@ -26,7 +25,6 @@ function Nav() {
       let response = await axios.get("http://localhost:8000/api/v2/logout", {
         withCredentials: true,
       });
-      console.log(response);
       dispatch(setCurrentUser(null));
       toast.success(response?.data?.message);
       navigate("/login");
@@ -36,23 +34,25 @@ function Nav() {
   };
 
   return (
-    <div className="w-screen fixed top-0 left-0">
+    <div className="w-screen fixed top-0 left-0 z-50">
       {/* Top Nav */}
       <div
         id="top-nav"
-        className="w-screen h-[100px] flex items-center justify-around px-4 border-2  border-[#80808044] border-solid bg-white relative z-40"
+        className="w-screen h-[100px] flex items-center justify-around px-4 border-b-2 
+                   border-[#80808044] bg-white relative z-50"
       >
         {/* Logo */}
         <div className="w-[120px] md:w-[15vw] h-full flex items-center">
           <img
             src={rentalLogo}
             alt="Rental Logo"
-            className=" w-[140px] h-[120px] object-contain"
+            className="w-[140px] h-[120px] object-contain"
           />
         </div>
 
         {/* Search Bar */}
-        <div className="hidden lg:flex w-[700px] h-[60px] bg-white rounded-[30px] px-4 shadow-lg items-center border-2 border-solid border-gray-200">
+        <div className="hidden lg:flex w-[700px] h-[60px] bg-white rounded-[30px] px-4 
+                        shadow-lg items-center border-2 border-solid border-gray-200">
           <input
             type="text"
             placeholder="Search for homes and mansion"
@@ -61,8 +61,8 @@ function Nav() {
           <FaSearch className="mx-4 text-red-600 cursor-pointer text-xl" />
         </div>
 
-        {/* Right Side Placeholder */}
-        <div className="w-[100px] h-[60%] rounded-[30px] flex items-center justify-evenly shadow-md relative z-50">
+        {/* Right Section */}
+        <div className="w-[100px] h-[60%] rounded-[30px] flex items-center justify-evenly shadow-md relative">
           <div className="w-[30px] h-[30px] rounded-full bg-violet-900 text-white flex items-center justify-center cursor-pointer">
             {currentUser?.userName?.[0]?.toUpperCase() || "U"}
           </div>
@@ -74,13 +74,13 @@ function Nav() {
           {showPopUpMenu && (
             <div
               id="popup"
-              className="absolute w-[200px] h-[200px] top-[80px] shadow-lg border-2 border-gray-200 
-                         border-solid flex flex-col justify-around p-4 z-50 bg-white"
+              className="absolute w-[200px] h-[200px] top-[80px] right-0 shadow-lg border-2 border-gray-200 
+                         border-solid flex flex-col justify-around p-4 z-60 bg-white"
             >
               {!currentUser && (
                 <Link
                   to="/login"
-                  className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-solid border-b-2 border-gray-200"
+                  className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200"
                 >
                   Login
                 </Link>
@@ -88,16 +88,16 @@ function Nav() {
 
               {currentUser && (
                 <span
-                  className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-solid border-b-2 border-gray-200"
+                  className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200"
                   onClick={handleLogOut}
                 >
                   Log Out
                 </span>
               )}
-              <span className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-solid border-b-2 border-gray-200">
+              <span className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200">
                 Your Listing
               </span>
-              <span className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-solid border-b-2 border-gray-200">
+              <span className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200">
                 Your Booking
               </span>
             </div>
@@ -108,34 +108,36 @@ function Nav() {
       {/* Bottom Nav */}
       <div
         id="bottom-nav"
-        className="flex justify-start md:justify-center items-center w-screen h-[90px] gap-[50px]  overflow-x-auto p-2 whitespace-nowrap fixed left-0 top-[100px] bg-white z-30 border-gray-200 border-solid border-b-2"
+        className="flex justify-start md:justify-center items-center w-screen h-[90px] gap-[50px] 
+                   overflow-x-auto overflow-y-hidden p-2 whitespace-nowrap fixed left-0 top-[100px] 
+                   bg-white z-40 border-b-2 border-gray-200"
       >
         <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <FaHouseChimney className="w-[50px] h-[30px] cursor-pointer mb-2" />
+          <FaHouseChimney className="w-[50px] h-[30px] mb-2" />
           <span>Rooms</span>
         </div>
         <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <FaBuilding className="w-[50px] h-[30px] cursor-pointer mb-2" />
+          <FaBuilding className="w-[50px] h-[30px] mb-2" />
           <span>Apartment</span>
         </div>
         <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <MdVilla className="w-[50px] h-[30px] cursor-pointer mb-2" />
+          <MdVilla className="w-[50px] h-[30px] mb-2" />
           <span>Villa</span>
         </div>
         <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <MdBungalow className="w-[50px] h-[30px] cursor-pointer mb-2" />
+          <MdBungalow className="w-[50px] h-[30px] mb-2" />
           <span>Bungalow</span>
         </div>
         <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <PiWarehouseFill className="w-[50px] h-[30px] cursor-pointer mb-2" />
+          <PiWarehouseFill className="w-[50px] h-[30px] mb-2" />
           <span>Loft</span>
         </div>
         <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <BsHousesFill className="w-[50px] h-[30px] cursor-pointer mb-2" />
+          <BsHousesFill className="w-[50px] h-[30px] mb-2" />
           <span>Shared Room</span>
         </div>
         <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <GiFamilyHouse className="w-[50px] h-[30px] cursor-pointer mb-2" />
+          <GiFamilyHouse className="w-[50px] h-[30px] mb-2" />
           <span>Mansion</span>
         </div>
       </div>
