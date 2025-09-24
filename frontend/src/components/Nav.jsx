@@ -36,7 +36,7 @@ function Nav() {
   };
 
   return (
-    <div className="relative">
+    <div className="w-screen fixed top-0 left-0">
       {/* Top Nav */}
       <div
         id="top-nav"
@@ -63,7 +63,7 @@ function Nav() {
 
         {/* Right Side Placeholder */}
         <div className="w-[100px] h-[60%] rounded-[30px] flex items-center justify-evenly shadow-md relative z-50">
-          <div className="w-[30px] h-[30px] rounded-full bg-gray-400 text-white flex items-center justify-center cursor-pointer">
+          <div className="w-[30px] h-[30px] rounded-full bg-violet-900 text-white flex items-center justify-center cursor-pointer">
             {currentUser?.userName?.[0]?.toUpperCase() || "U"}
           </div>
           <GiHamburgerMenu
@@ -108,7 +108,7 @@ function Nav() {
       {/* Bottom Nav */}
       <div
         id="bottom-nav"
-        className="flex justify-start md:justify-center items-center w-screen h-[90px] gap-[50px]  overflow-x-auto p-2 whitespace-nowrap mt-2 relative bg-white z-30 border-gray-200 border-solid border-b-2"
+        className="flex justify-start md:justify-center items-center w-screen h-[90px] gap-[50px]  overflow-x-auto p-2 whitespace-nowrap fixed left-0 top-[100px] bg-white z-30 border-gray-200 border-solid border-b-2"
       >
         <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
           <FaHouseChimney className="w-[50px] h-[30px] cursor-pointer mb-2" />
