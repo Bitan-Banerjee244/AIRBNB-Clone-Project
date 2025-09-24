@@ -3,13 +3,16 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { setCurrentUser } from "../store/userSlice";
 
 function Signup() {
   let [showPassword, setShowPassword] = useState(true);
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let navigate = useNavigate();
+  let dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,6 +22,8 @@ function Signup() {
         { email, password },
         { withCredentials: true }
       );
+      console.log(response.data);
+      dispatch(setCurrentUser(response?.data?.user));
       toast.success(response?.data.message);
       navigate("/");
       setPassword("");

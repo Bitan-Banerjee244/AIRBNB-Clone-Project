@@ -4,6 +4,8 @@ import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../store/userSlice";
 
 function Signup() {
   let [showPassword, setShowPassword] = useState(true);
@@ -11,6 +13,7 @@ function Signup() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let navigate = useNavigate();
+  let dispatch = useDispatch()
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -21,6 +24,7 @@ function Signup() {
         { withCredentials: true }
       );
       // console.log(response.data);
+      dispatch(setCurrentUser(response.data?.user))
       toast.success(response.data.message);
       setEmail("");
       setUserName("");
