@@ -25,7 +25,7 @@ export const createListing = async (req, res) => {
         });
 
         // Add listing ID to user's listings array
-        let user = await User.findByIdAndUpdate(
+        await User.findByIdAndUpdate(
             host,
             { $push: { listings: newListing._id } },
             { new: true }
@@ -45,3 +45,20 @@ export const createListing = async (req, res) => {
         });
     }
 };
+
+
+export const showAllListing = async (req, res) => {
+    try {
+        let listing = await Listing.find().populate("host", "userName email");
+        return res.status(200).json({
+            success: true,
+            list: listing
+        })
+    } catch (error) {
+        return res.status(200).json({
+            success: false,
+            error: error.message,
+            message: "Error to get All Listing Data"
+        })
+    }
+}
