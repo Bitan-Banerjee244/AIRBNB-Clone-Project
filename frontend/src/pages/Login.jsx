@@ -6,6 +6,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../store/userSlice";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 function Signup() {
   let [showPassword, setShowPassword] = useState(true);
@@ -13,6 +14,7 @@ function Signup() {
   let [password, setPassword] = useState("");
   let navigate = useNavigate();
   let dispatch = useDispatch();
+  let { reloadUser } = useCurrentUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,13 +24,12 @@ function Signup() {
         { email, password },
         { withCredentials: true }
       );
-      console.log(response.data);
-      dispatch(setCurrentUser(response?.data?.user));
+      // console.log(response.data);
       toast.success(response?.data.message);
       navigate("/");
+      reloadUser();
       setPassword("");
       setEmail("");
-      // console.log(response.data);
     } catch (error) {
       console.log(`Error Occurred in Login Component : ${error}`);
       toast.error(error.response?.data?.message || "Login failed");

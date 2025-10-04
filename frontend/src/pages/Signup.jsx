@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../store/userSlice";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 function Signup() {
   let [showPassword, setShowPassword] = useState(true);
@@ -13,7 +14,8 @@ function Signup() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let navigate = useNavigate();
-  let dispatch = useDispatch()
+  let dispatch = useDispatch();
+  let { reloadUser } = useCurrentUser();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -24,12 +26,12 @@ function Signup() {
         { withCredentials: true }
       );
       // console.log(response.data);
-      dispatch(setCurrentUser(response.data?.user))
       toast.success(response.data.message);
       setEmail("");
       setUserName("");
       setPassword("");
       navigate("/");
+      reloadUser();
     } catch (error) {
       console.log(`Error Occurred in SignUp API : ${error}`);
       toast.error(response.data.message);

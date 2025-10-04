@@ -5,11 +5,16 @@ import Home from "./pages/Home";
 import useCurrentUser from "./hooks/useCurrentUser";
 import useListing from "./hooks/useListing";
 import CreateListing from "./pages/CreateListing";
+import { useEffect } from "react";
 
 function App() {
-  
-  let currentUser = useCurrentUser();
-  useListing()
+  const { currentUser, reloadUser } = useCurrentUser();
+  const { reloadListings } = useListing();
+
+  useEffect(() => {
+    reloadUser();
+    reloadListings();
+  }, []);
 
   return (
     <>
@@ -23,7 +28,7 @@ function App() {
           element={!currentUser ? <Login /> : <Navigate to="/" />}
         ></Route>
         <Route path="/" element={<Home />}></Route>
-        <Route path ="/createlisting" element={<CreateListing/>}></Route>
+        <Route path="/createlisting" element={<CreateListing />}></Route>
       </Routes>
     </>
   );
