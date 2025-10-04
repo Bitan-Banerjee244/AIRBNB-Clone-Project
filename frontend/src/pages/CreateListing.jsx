@@ -9,6 +9,7 @@ import ListingCard from "../components/ListingCard";
 import axios from "axios";
 import useListing from "../hooks/useListing";
 import toast from "react-hot-toast";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 function CreateListing() {
   const navigate = useNavigate();
@@ -25,6 +26,9 @@ function CreateListing() {
   let [desc, setDesc] = useState("");
   let [price, setPrice] = useState("");
   let { reloadListings } = useListing();
+  let { currentUser, reloadUser } = useCurrentUser();
+  let [loader, setLoader] = useState(false);
+  // console.log(currentUser.listings)
 
   const handleSubmitData = async (e) => {
     e.preventDefault();
@@ -37,6 +41,7 @@ function CreateListing() {
     fromData.append("price", price);
 
     try {
+      setLoader(true);
       let response = await axios.post(
         "http://localhost:8000/api/v2/createlisting",
         fromData,
@@ -46,6 +51,8 @@ function CreateListing() {
       console.log(response.data);
       navigate("/");
       reloadListings();
+      reloadUser();
+      setLoader(false);
     } catch (error) {
       console.log(`Error Occurred in Creating List Component : ${error}`);
     }
@@ -80,7 +87,7 @@ function CreateListing() {
           <img
             src={fimage1 || plus}
             alt="image1"
-            className="h-[200px] w-[340px] bg-gray-400 shadow-sm rounded-lg object-cover cursor-pointer"
+            className="h-[200px] w-[340px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
             onClick={() => {
               document.querySelector("#file1").click();
             }}
@@ -88,7 +95,7 @@ function CreateListing() {
           <img
             src={fimage2 || plus}
             alt="image2"
-            className="w-[340px] h-[200px] bg-gray-400 shadow-sm rounded-lg object-cover cursor-pointer"
+            className="w-[340px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
             onClick={() => {
               document.querySelector("#file2").click();
             }}
@@ -96,7 +103,7 @@ function CreateListing() {
           <img
             src={fimage3 || plus}
             alt="image3"
-            className="w-[340px] h-[200px] bg-gray-400 shadow-sm rounded-lg object-cover cursor-pointer"
+            className="w-[340px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
             onClick={() => {
               document.querySelector("#file3").click();
             }}
@@ -188,7 +195,7 @@ function CreateListing() {
             type="submit"
             className="bg-red-400 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-all"
           >
-            Create Listing
+            {loader ? "Creating..." : "Create Listing"}
           </button>
         </form>
       </div>
@@ -200,12 +207,10 @@ function CreateListing() {
           id="listing-Container"
           className="flex flex-col items-center justify-start gap-4 px-4"
         >
-          <ListingCard data={tempdata} />
-          <ListingCard data={tempdata} />
-          <ListingCard data={tempdata} />
-          <ListingCard data={tempdata} />
-          <ListingCard data={tempdata} />
-          <ListingCard data={tempdata} />
+          {currentUser &&
+            currentUser?.listings?.map((data) => (
+              <ListingCard data={data} key={data._id} />
+            ))}
         </div>
       </div>
     </div>

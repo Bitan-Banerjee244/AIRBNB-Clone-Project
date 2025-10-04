@@ -1,16 +1,15 @@
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
-import { MdCancel } from "react-icons/md";
-
+import { MdDelete } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 function Card({ data }) {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
-    <div className="w-[300px] lg:w-[450px] h-auto border border-gray-200 shadow-lg rounded-2xl overflow-hidden bg-white hover:shadow-2xl hover:scale-[1.03] transition-all duration-300">
+    <div className="w-[300px] lg:w-[450px] h-[400px] border border-gray-200 shadow-lg rounded-2xl overflow-hidden bg-white hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 flex flex-col">
       {/* Image Section */}
-      <div className="w-full h-[220px] lg:h-[260px] overflow-hidden relative">
-        <div
-          className="flex w-full h-full overflow-x-scroll scroll-smooth snap-x snap-mandatory
-                     scrollbar-hide"
-        >
+      <div className="w-full h-[180px] lg:h-[220px] overflow-hidden relative flex-none">
+        <div className="flex w-full h-full overflow-x-scroll scroll-smooth snap-x snap-mandatory scrollbar-hide">
           <img
             src={data.image1}
             alt="image1"
@@ -26,37 +25,43 @@ function Card({ data }) {
             alt="image3"
             className="w-full h-full object-cover flex-none snap-center"
           />
+        </div>
 
-          {/* Booked Tag */}
-          <div
-            className="absolute px-9 py-3 bg-white z-80 flex gap-2 items-center right-2 top-3 rounded-md"
-            id="booked-tag"
-          >
-            <IoCheckmarkDoneCircleSharp className="text-green-600 text-2xl" />
-            <span>Booked</span>
-          </div>
+        {/* Booked Tag - Always Visible */}
+        <div className="absolute top-3 right-3 z-20 px-4 py-2 bg-white rounded-md flex items-center gap-2 shadow-md">
+          <IoCheckmarkDoneCircleSharp className="text-green-600 text-xl" />
+          <span className="text-sm font-medium">Booked</span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col gap-3">
-        <div className="w-full flex justify-between">
-          <h2 className="text-xl font-bold text-gray-800">{data.title}</h2>
-          <p className="text-2xl font-semibold text-orange-800">
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        <div className="w-full flex justify-between items-start">
+          <h2 className="text-lg lg:text-xl font-bold text-gray-800 truncate w-2/3">
+            {data.title}
+          </h2>
+          <p className="text-lg lg:text-2xl font-semibold text-orange-800 flex-none">
             {data.price}/-
           </p>
         </div>
 
-        <p className="text-gray-600 text-sm line-clamp-3">{data.description}</p>
+        <p className="text-gray-600 text-sm line-clamp-3 flex-1 overflow-hidden">
+          {data.description}
+        </p>
 
-        {/* <button className="w-full py-3 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md">
-          Book Now
-        </button> */}
+        {/* Buttons */}
+        {(!currentUser || data?.host?._id !== currentUser?._id) && (
+          <button className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md mt-auto">
+            Book Now
+          </button>
+        )}
 
-        <button className="w-full py-3 bg-violet-500 text-white font-medium rounded-xl hover:bg-violet-600 transition-all duration-300 shadow-md flex items-center gap-2 justify-center">
-               <MdCancel className="text-pink-200 text-2xl" />
-          Cancel Now
-        </button>
+        {currentUser && data?.host?._id === currentUser._id && (
+          <button className="w-full py-2 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-all duration-300 shadow-md flex items-center gap-2 justify-center mt-auto">
+            <MdDelete className="text-pink-200 text-xl" />
+            Delete Listing
+          </button>
+        )}
       </div>
     </div>
   );
