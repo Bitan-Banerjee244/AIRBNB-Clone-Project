@@ -11,7 +11,11 @@ export const getCurrentUser = async (req, res) => {
             })
         }
 
-        let user = await User.findById(userId).select("-password");
+        let user = await User.findById(userId).select("-password").populate({
+            path: "listings",
+            select: "title description"
+        });
+
         if (!user) {
             return res.status(500).json({
                 success: false,

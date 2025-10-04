@@ -44,5 +44,5 @@ let listingSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-let Listing = mongoose.model("listing", listingSchema);
+let Listing = mongoose.model("Listing", listingSchema);
 export default Listing;
