@@ -1,0 +1,134 @@
+import { useNavigate } from "react-router-dom";
+import plus from "../assets/plus.png";
+import { IoChevronBackCircle } from "react-icons/io5";
+import house1 from "../assets/house1.webp";
+import house2 from "../assets/house2.webp";
+import house3 from "../assets/house3.webp";
+import ListingCard from "../components/ListingCard";
+
+function CreateListing() {
+  const navigate = useNavigate();
+
+  const tempdata = {
+    title: "Luxury House",
+    description: "Enjoy Night with amazing interior",
+    price: "5000",
+    image1: house1,
+    image2: house2,
+    image3: house3,
+  };
+
+  return (
+    <div className="relative flex flex-col lg:flex-row justify-between gap-6">
+      {/* Left Section: Create Listing */}
+      <div className="w-[100%] lg:w-[70%] lg:h-screen flex flex-col">
+        <h1 className="text-3xl font-semibold mb-2 gap-2 flex items-center justify-center lg:justify-start">
+          <IoChevronBackCircle
+            className="text-red-500 cursor-pointer"
+            onClick={() => navigate("/")}
+          />{" "}
+          Create Listing
+        </h1>
+
+        {/* Image Upload Container */}
+        <div
+          id="image-container"
+          className="w-full flex flex-wrap justify-around gap-3 mt-2"
+        >
+          <img
+            src={plus}
+            alt="image1"
+            className="h-[200px] w-[340px] bg-gray-400 shadow-sm rounded-lg object-contain cursor-pointer"
+          />
+          <img
+            src={plus}
+            alt="image2"
+            className="w-[340px] h-[200px] bg-gray-400 shadow-sm rounded-lg object-contain cursor-pointer"
+          />
+          <img
+            src={plus}
+            alt="image3"
+            className="w-[340px] h-[200px] bg-gray-400 shadow-sm rounded-lg object-contain cursor-pointer"
+          />
+        </div>
+
+        <h5 className="text-xl ml-2 text-center lg:text-left mt-2">
+          Upload Images
+        </h5>
+
+        {/* Form */}
+        <form className="mt-3 w-full lg:max-h-[400px] p-4 flex flex-col gap-4 overflow-y-auto">
+          {/* Hidden file inputs */}
+          <input type="file" className="hidden" id="file1" />
+          <input type="file" className="hidden" id="file2" />
+          <input type="file" className="hidden" id="file3" />
+
+          {/* Title */}
+          <div className="flex flex-col">
+            <label htmlFor="title" className="mb-1 font-medium">
+              Title*
+            </label>
+            <input
+              type="text"
+              id="title"
+              placeholder="Luxury House"
+              required
+              className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
+            />
+          </div>
+
+          {/* Description */}
+          <div className="flex flex-col">
+            <label htmlFor="description" className="mb-1 font-medium">
+              Description*
+            </label>
+            <textarea
+              id="description"
+              placeholder="Enter Description"
+              className="p-2 border border-gray-300 rounded-md resize-none h-24 focus:outline-none focus:ring-2 focus:ring-red-400"
+            ></textarea>
+          </div>
+
+          {/* Price */}
+          <div className="flex flex-col">
+            <label htmlFor="price" className="mb-1 font-medium">
+              Price*
+            </label>
+            <input
+              type="text"
+              id="price"
+              placeholder="Enter Room Rent"
+              className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="bg-red-400 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-all"
+          >
+            Create Listing
+          </button>
+        </form>
+      </div>
+
+      {/* Right Section: Your Listings */}
+      <div className="lg:w-[30%] w-[100%] lg:h-screen overflow-y-auto mt-6 lg:mt-0">
+        <h1 className="text-3xl font-semibold mb-3 ml-8">Your Listing</h1>
+        <div
+          id="listing-Container"
+          className="flex flex-col items-center justify-start gap-4 px-4"
+        >
+          <ListingCard data={tempdata} />
+          <ListingCard data={tempdata} />
+          <ListingCard data={tempdata} />
+          <ListingCard data={tempdata} />
+          <ListingCard data={tempdata} />
+          <ListingCard data={tempdata} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default CreateListing;

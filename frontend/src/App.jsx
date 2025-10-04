@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import useCurrentUser from "./hooks/useCurrentUser";
 import useListing from "./hooks/useListing";
+import CreateListing from "./pages/CreateListing";
 
 function App() {
   
@@ -22,6 +23,7 @@ function App() {
           element={!currentUser ? <Login /> : <Navigate to="/" />}
         ></Route>
         <Route path="/" element={<Home />}></Route>
+        <Route path ="/createlisting" element={<CreateListing/>}></Route>
       </Routes>
     </>
   );

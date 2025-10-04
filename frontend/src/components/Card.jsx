@@ -35,14 +35,6 @@ function Card({ data }) {
             <IoCheckmarkDoneCircleSharp className="text-green-600 text-2xl" />
             <span>Booked</span>
           </div>
-          {/* Cancel Booking Tag */}
-           {/* <div
-            className="absolute px-9 py-3 bg-white z-80 flex gap-2 items-center left-2 top-3 rounded-md"
-            id="cancel-tag"
-          >
-            <MdCancel className="text-red-600 text-2xl" />
-            <span>Cancel Booking</span>
-          </div> */}
         </div>
       </div>
 

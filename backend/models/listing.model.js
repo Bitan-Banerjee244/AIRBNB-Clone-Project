@@ -31,6 +31,16 @@ let listingSchema = new mongoose.Schema({
         required: true
     },
     category: { type: String, default: "Houses" },
+    
+    isBooked: {
+        type: Boolean,
+        default: false
+    },
+    bookedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null
+    }
 
 }, { timestamps: true })
 
