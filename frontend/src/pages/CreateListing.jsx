@@ -1,13 +1,55 @@
 import { useNavigate } from "react-router-dom";
-import plus from "../assets/plus.png";
+import { useState } from "react";
 import { IoChevronBackCircle } from "react-icons/io5";
+import plus from "../assets/plus.png";
 import house1 from "../assets/house1.webp";
 import house2 from "../assets/house2.webp";
 import house3 from "../assets/house3.webp";
 import ListingCard from "../components/ListingCard";
+import axios from "axios";
+import useListing from "../hooks/useListing";
+import toast from "react-hot-toast";
 
 function CreateListing() {
   const navigate = useNavigate();
+  //   Image handeling
+  let [fimage1, setfImage1] = useState("");
+  let [fimage2, setfImage2] = useState("");
+  let [fimage3, setfImage3] = useState("");
+  let [bimage1, setbImage1] = useState("");
+  let [bimage2, setbImage2] = useState("");
+  let [bimage3, setbImage3] = useState("");
+
+  //   other details
+  let [title, setTitle] = useState("");
+  let [desc, setDesc] = useState("");
+  let [price, setPrice] = useState("");
+  let { reloadListings } = useListing();
+
+  const handleSubmitData = async (e) => {
+    e.preventDefault();
+    let fromData = new FormData();
+    fromData.append("image1", bimage1);
+    fromData.append("image2", bimage2);
+    fromData.append("image3", bimage3);
+    fromData.append("title", title);
+    fromData.append("description", desc);
+    fromData.append("price", price);
+
+    try {
+      let response = await axios.post(
+        "http://localhost:8000/api/v2/createlisting",
+        fromData,
+        { withCredentials: true }
+      );
+      toast.success("List Created Successfully");
+      console.log(response.data);
+      navigate("/");
+      reloadListings();
+    } catch (error) {
+      console.log(`Error Occurred in Creating List Component : ${error}`);
+    }
+  };
 
   const tempdata = {
     title: "Luxury House",
@@ -36,19 +78,28 @@ function CreateListing() {
           className="w-full flex flex-wrap justify-around gap-3 mt-2"
         >
           <img
-            src={plus}
+            src={fimage1 || plus}
             alt="image1"
-            className="h-[200px] w-[340px] bg-gray-400 shadow-sm rounded-lg object-contain cursor-pointer"
+            className="h-[200px] w-[340px] bg-gray-400 shadow-sm rounded-lg object-cover cursor-pointer"
+            onClick={() => {
+              document.querySelector("#file1").click();
+            }}
           />
           <img
-            src={plus}
+            src={fimage2 || plus}
             alt="image2"
-            className="w-[340px] h-[200px] bg-gray-400 shadow-sm rounded-lg object-contain cursor-pointer"
+            className="w-[340px] h-[200px] bg-gray-400 shadow-sm rounded-lg object-cover cursor-pointer"
+            onClick={() => {
+              document.querySelector("#file2").click();
+            }}
           />
           <img
-            src={plus}
+            src={fimage3 || plus}
             alt="image3"
-            className="w-[340px] h-[200px] bg-gray-400 shadow-sm rounded-lg object-contain cursor-pointer"
+            className="w-[340px] h-[200px] bg-gray-400 shadow-sm rounded-lg object-cover cursor-pointer"
+            onClick={() => {
+              document.querySelector("#file3").click();
+            }}
           />
         </div>
 
@@ -57,11 +108,38 @@ function CreateListing() {
         </h5>
 
         {/* Form */}
-        <form className="mt-3 w-full lg:max-h-[400px] p-4 flex flex-col gap-4 overflow-y-auto">
+        <form
+          className="mt-3 w-full lg:max-h-[400px] p-4 flex flex-col gap-4 overflow-y-auto"
+          onSubmit={handleSubmitData}
+        >
           {/* Hidden file inputs */}
-          <input type="file" className="hidden" id="file1" />
-          <input type="file" className="hidden" id="file2" />
-          <input type="file" className="hidden" id="file3" />
+          <input
+            type="file"
+            className="hidden"
+            id="file1"
+            onChange={(e) => {
+              setbImage1(e.target.files[0]);
+              setfImage1(URL.createObjectURL(e.target.files[0]));
+            }}
+          />
+          <input
+            type="file"
+            className="hidden"
+            id="file2"
+            onChange={(e) => {
+              setbImage2(e.target.files[0]);
+              setfImage2(URL.createObjectURL(e.target.files[0]));
+            }}
+          />
+          <input
+            type="file"
+            className="hidden"
+            id="file3"
+            onChange={(e) => {
+              setbImage3(e.target.files[0]);
+              setfImage3(URL.createObjectURL(e.target.files[0]));
+            }}
+          />
 
           {/* Title */}
           <div className="flex flex-col">
@@ -74,6 +152,7 @@ function CreateListing() {
               placeholder="Luxury House"
               required
               className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
@@ -86,6 +165,7 @@ function CreateListing() {
               id="description"
               placeholder="Enter Description"
               className="p-2 border border-gray-300 rounded-md resize-none h-24 focus:outline-none focus:ring-2 focus:ring-red-400"
+              onChange={(e) => setDesc(e.target.value)}
             ></textarea>
           </div>
 
@@ -99,6 +179,7 @@ function CreateListing() {
               id="price"
               placeholder="Enter Room Rent"
               className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
+              onChange={(e) => setPrice(e.target.value)}
             />
           </div>
 

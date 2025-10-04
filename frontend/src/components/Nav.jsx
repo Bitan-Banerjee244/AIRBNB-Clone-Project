@@ -10,7 +10,7 @@ import { GiFamilyHouse } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../store/userSlice";
 import toast from "react-hot-toast";
 
@@ -51,8 +51,10 @@ function Nav() {
         </div>
 
         {/* Search Bar */}
-        <div className="hidden lg:flex w-[700px] h-[60px] bg-white rounded-[30px] px-4 
-                        shadow-lg items-center border-2 border-solid border-gray-200">
+        <div
+          className="hidden lg:flex w-[700px] h-[60px] bg-white rounded-[30px] px-4 
+                        shadow-lg items-center border-2 border-solid border-gray-200"
+        >
           <input
             type="text"
             placeholder="Search for homes and mansion"
@@ -94,10 +96,29 @@ function Nav() {
                   Log Out
                 </span>
               )}
-              <span className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200">
+
+              <span
+                className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200"
+                onClick={() => {
+                  if (currentUser) {
+                    navigate("/createlisting"); // programmatic navigation
+                  } else {
+                    alert("Please login");
+                  }
+                }}
+              >
                 Your Listing
               </span>
-              <span className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200">
+              <span
+                className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200"
+                onClick={() => {
+                  if (currentUser) {
+                    navigate("/yourbooking"); // navigate to booking page
+                  } else {
+                    alert("Please login");
+                  }
+                }}
+              >
                 Your Booking
               </span>
             </div>
