@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Listing from "../models/listing.model.js";
 import User from "../models/user.model.js";
 import uploadImage from "../utils/cloudinary.service.js";
@@ -60,5 +61,40 @@ export const showAllListing = async (req, res) => {
             error: error.message,
             message: "Error to get All Listing Data"
         })
+    }
+}
+
+export const getListData = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid House ID"
+            });
+        }
+
+        const house = await Listing.findById(id);
+
+        if (!house) {
+            return res.status(404).json({
+                success: false,
+                message: "House not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            house
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message
+        });
     }
 }

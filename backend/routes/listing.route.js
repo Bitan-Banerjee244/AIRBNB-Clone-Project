@@ -1,6 +1,6 @@
 import express from "express"
 import { upload } from "../middlewares/multur.js";
-import { createListing, showAllListing } from "../controllers/listing.controller.js";
+import { createListing, getListData, showAllListing } from "../controllers/listing.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 
 const listRouter = express.Router()
@@ -12,5 +12,6 @@ listRouter.post("/createlisting", isAuthenticated, upload.fields([
 ]), createListing)
 
 listRouter.get("/showalllisting", showAllListing);
+listRouter.get("/getdata/:id", getListData);
 
 export default listRouter;

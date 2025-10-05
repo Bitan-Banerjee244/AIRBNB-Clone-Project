@@ -6,6 +6,7 @@ import useCurrentUser from "./hooks/useCurrentUser";
 import useListing from "./hooks/useListing";
 import CreateListing from "./pages/CreateListing";
 import { useEffect } from "react";
+import CreateBooking from "./pages/CreateBooking";
 
 function App() {
   const { currentUser, reloadUser } = useCurrentUser();
@@ -29,6 +30,7 @@ function App() {
         ></Route>
         <Route path="/" element={<Home />}></Route>
         <Route path="/createlisting" element={<CreateListing />}></Route>
+        <Route path="/booking/:id" element={<CreateBooking />}></Route>
       </Routes>
     </>
   );
