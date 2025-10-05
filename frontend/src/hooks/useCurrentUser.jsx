@@ -13,7 +13,7 @@ export default function useCurrentUser() {
         "http://localhost:8000/api/v2/currentuser",
         { withCredentials: true }
       );
-      console.log(response.data)
+      // console.log(response.data)
       dispatch(setCurrentUser(response?.data?.user));
     } catch (error) {
       console.log("Error fetching current user:", error);

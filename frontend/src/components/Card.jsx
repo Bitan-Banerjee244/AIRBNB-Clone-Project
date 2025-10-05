@@ -1,9 +1,11 @@
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Card({ data }) {
   const { currentUser } = useSelector((state) => state.user);
+  let navigate = useNavigate();
 
   return (
     <div className="w-[300px] lg:w-[450px] h-[400px] border border-gray-200 shadow-lg rounded-2xl overflow-hidden bg-white hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 flex flex-col">
@@ -51,7 +53,10 @@ function Card({ data }) {
 
         {/* Buttons */}
         {(!currentUser || data?.host?._id !== currentUser?._id) && (
-          <button className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md mt-auto">
+          <button
+            className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md mt-auto"
+            onClick={() => navigate(`/booking/${data._id}`)}
+          >
             Book Now
           </button>
         )}

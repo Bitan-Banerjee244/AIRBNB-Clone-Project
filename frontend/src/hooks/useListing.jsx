@@ -12,7 +12,7 @@ function useListing() {
         "http://localhost:8000/api/v2/showalllisting",
         { withCredentials: true }
       );
-      console.log(response?.data?.list);
+      // console.log(response?.data?.list);
       dispatch(setAllListing(response?.data.list));
     } catch (error) {
       console.log("Fetching Data Error");
