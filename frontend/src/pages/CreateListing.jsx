@@ -13,7 +13,8 @@ import useCurrentUser from "../hooks/useCurrentUser";
 
 function CreateListing() {
   const navigate = useNavigate();
-  //   Image handeling
+
+  // Image handling
   let [fimage1, setfImage1] = useState("");
   let [fimage2, setfImage2] = useState("");
   let [fimage3, setfImage3] = useState("");
@@ -21,30 +22,31 @@ function CreateListing() {
   let [bimage2, setbImage2] = useState("");
   let [bimage3, setbImage3] = useState("");
 
-  //   other details
+  // Other details
   let [title, setTitle] = useState("");
   let [desc, setDesc] = useState("");
   let [price, setPrice] = useState("");
+  let [category, setCategory] = useState(""); 
   let { reloadListings } = useListing();
   let { currentUser, reloadUser } = useCurrentUser();
   let [loader, setLoader] = useState(false);
-  // console.log(currentUser.listings)
 
   const handleSubmitData = async (e) => {
     e.preventDefault();
-    let fromData = new FormData();
-    fromData.append("image1", bimage1);
-    fromData.append("image2", bimage2);
-    fromData.append("image3", bimage3);
-    fromData.append("title", title);
-    fromData.append("description", desc);
-    fromData.append("price", price);
+    let formData = new FormData();
+    formData.append("image1", bimage1);
+    formData.append("image2", bimage2);
+    formData.append("image3", bimage3);
+    formData.append("title", title);
+    formData.append("description", desc);
+    formData.append("price", price);
+    formData.append("category", category); 
 
     try {
       setLoader(true);
       let response = await axios.post(
         "http://localhost:8000/api/v2/createlisting",
-        fromData,
+        formData,
         { withCredentials: true }
       );
       toast.success("List Created Successfully");
@@ -55,6 +57,8 @@ function CreateListing() {
       setLoader(false);
     } catch (error) {
       console.log(`Error Occurred in Creating List Component : ${error}`);
+      toast.error("Failed to create listing");
+      setLoader(false);
     }
   };
 
@@ -188,6 +192,27 @@ function CreateListing() {
               className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
               onChange={(e) => setPrice(e.target.value)}
             />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="category" className="mb-1 font-medium">
+              Category*
+            </label>
+            <select
+              id="category"
+              required
+              className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">Select Category</option>
+              <option value="Rooms">Rooms</option>
+              <option value="Apartment">Apartment</option>
+              <option value="Villa">Villa</option>
+              <option value="Bungalow">Bungalow</option>
+              <option value="Loft">Loft</option>
+              <option value="Shared Room">Shared Room</option>
+              <option value="Mansion">Mansion</option>
+            </select>
           </div>
 
           {/* Submit Button */}
