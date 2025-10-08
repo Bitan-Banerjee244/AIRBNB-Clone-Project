@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.routes.js";
 import listRouter from "./routes/listing.route.js";
+import bookingRouter from "./routes/booking.route.js";
 
 const app = express();
 let port = process.env.PORT || 3000;
@@ -22,6 +23,7 @@ app.use(cors({
 app.use("/api/v2", authRouter);
 app.use("/api/v2", userRouter);
 app.use("/api/v2", listRouter);
+app.use("/api/v2", bookingRouter);
 
 
 app.get("/", (req, res) => {

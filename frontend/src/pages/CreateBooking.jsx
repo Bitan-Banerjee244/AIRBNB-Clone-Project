@@ -1,12 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 function CreateBooking() {
   let { id } = useParams();
   let [houseData, setHouseData] = useState(null);
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
+  let { currentUser } = useCurrentUser();
+  let navigate = useNavigate();
 
   const getData = async () => {
     try {
@@ -22,15 +26,43 @@ function CreateBooking() {
   };
 
   useEffect(() => {
+    if (checkIn && checkOut && houseData?.price) {
+      const nights =
+        (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24);
+      setTotalPrice(nights > 0 ? nights * houseData.price : 0);
+    } else {
+      setTotalPrice(0);
+    }
+  }, [checkIn, checkOut, houseData]);
+
+  const handleBooking = async (e) => {
+    e.preventDefault();
+    try {
+      let response = await axios.post(
+        `http://localhost:8000/api/v2/createbooking`,
+        {
+          checkIn,
+          checkOut,
+          totalPrice,
+          customer: currentUser?._id,
+          rentingHouse: id,
+        },
+        { withCredentials: true }
+      );
+      console.log(response?.data);
+      navigate("/");
+    } catch (error) {
+      console.log(`Error occurred in Booking component!! : ${error}`);
+    }
+  };
+
+  useEffect(() => {
     getData();
   }, []);
-
   const numberOfNights =
     checkIn && checkOut
       ? (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
       : 0;
-
-  const totalBill = numberOfNights > 0 ? numberOfNights * houseData?.price : 0;
   return (
     <>
       <div className="relative w-screen h-screen p-4 flex">
@@ -87,7 +119,7 @@ function CreateBooking() {
           className="w-[50%] h-full p-4 bg-gray-50 rounded-xl shadow-md"
         >
           <h1 className="text-2xl font-bold mb-4">Book Now</h1>
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleBooking}>
             {/* Check-in Date */}
             <div className="flex flex-col">
               <label htmlFor="checkin" className="font-semibold mb-1">
@@ -124,7 +156,7 @@ function CreateBooking() {
               <p>Price per Night: ₹{houseData?.price}</p>
               <p>Number of Nights: {numberOfNights || 0}</p>
               <p className="font-bold mt-2 text-green-600">
-                Total: ₹{totalBill || 0}
+                Total: ₹{totalPrice || 0}
               </p>
             </div>
 
