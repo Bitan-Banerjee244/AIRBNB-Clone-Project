@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 function CreateBooking() {
   let { id } = useParams();
   let [houseData, setHouseData] = useState(null);
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
 
   const getData = async () => {
     try {
@@ -23,9 +25,15 @@ function CreateBooking() {
     getData();
   }, []);
 
+  const numberOfNights =
+    checkIn && checkOut
+      ? (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
+      : 0;
+
+  const totalBill = numberOfNights > 0 ? numberOfNights * houseData?.price : 0;
   return (
     <>
-      <div className="relative w-screen h-screen p-4">
+      <div className="relative w-screen h-screen p-4 flex">
         <div className="w-[50%] h-full " id="house-details p-4">
           <div
             id="image-section"
@@ -74,7 +82,61 @@ function CreateBooking() {
         </div>
 
         {/* Booking Section */}
-        <div id="booking"></div>
+        <div
+          id="booking"
+          className="w-[50%] h-full p-4 bg-gray-50 rounded-xl shadow-md"
+        >
+          <h1 className="text-2xl font-bold mb-4">Book Now</h1>
+          <form className="flex flex-col gap-4">
+            {/* Check-in Date */}
+            <div className="flex flex-col">
+              <label htmlFor="checkin" className="font-semibold mb-1">
+                Check-in
+              </label>
+              <input
+                type="date"
+                id="checkin"
+                name="checkin"
+                min={new Date().toISOString().split("T")[0]}
+                className="p-2 border rounded-md"
+                onChange={(e) => setCheckIn(e.target.value)}
+              />
+            </div>
+
+            {/* Check-out Date */}
+            <div className="flex flex-col">
+              <label htmlFor="checkout" className="font-semibold mb-1">
+                Check-out
+              </label>
+              <input
+                type="date"
+                id="checkout"
+                name="checkout"
+                min={new Date().toISOString().split("T")[0]}
+                className="p-2 border rounded-md"
+                onChange={(e) => setCheckOut(e.target.value)}
+              />
+            </div>
+
+            {/* Billing Section */}
+            <div className="p-4 bg-white rounded-md shadow-inner mt-2">
+              <h2 className="text-xl font-semibold mb-2">Billing Summary</h2>
+              <p>Price per Night: ₹{houseData?.price}</p>
+              <p>Number of Nights: {numberOfNights || 0}</p>
+              <p className="font-bold mt-2 text-green-600">
+                Total: ₹{totalBill || 0}
+              </p>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition"
+            >
+              Confirm Booking
+            </button>
+          </form>
+        </div>
       </div>
     </>
   );
