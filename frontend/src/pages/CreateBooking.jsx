@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import useCurrentUser from "../hooks/useCurrentUser";
+import useListing from "../hooks/useListing";
 
 function CreateBooking() {
   let { id } = useParams();
@@ -9,8 +10,9 @@ function CreateBooking() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
-  let { currentUser } = useCurrentUser();
+  let { currentUser,reloadUser } = useCurrentUser();
   let navigate = useNavigate();
+  let { reloadListings } = useListing();
 
   const getData = async () => {
     try {
@@ -49,6 +51,8 @@ function CreateBooking() {
         },
         { withCredentials: true }
       );
+      reloadUser();
+      // reloadListings();
       console.log(response?.data);
       navigate("/");
     } catch (error) {

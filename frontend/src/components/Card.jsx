@@ -6,6 +6,14 @@ import { useNavigate } from "react-router-dom";
 function Card({ data }) {
   const { currentUser } = useSelector((state) => state.user);
   let navigate = useNavigate();
+  console.log(data);
+  const isLoggedIn = !!currentUser;
+  const isOwner = currentUser?._id === data?.host?._id;
+  const isBookedByUser = currentUser?.bookings?.some(
+    (b) => b?.rentingHouse?.toString() === data?._id?.toString()
+  );
+  const isBooked = data?.isBooked || false;
+  const isBookedByOthers = !isBookedByUser && data?.isBooked;
 
   return (
     <div className="w-[300px] lg:w-[450px] h-[400px] border border-gray-200 shadow-lg rounded-2xl overflow-hidden bg-white hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 flex flex-col">
@@ -30,10 +38,15 @@ function Card({ data }) {
         </div>
 
         {/* Booked Tag - Always Visible */}
-        <div className="absolute top-3 right-3 z-20 px-4 py-2 bg-white rounded-md flex items-center gap-2 shadow-md">
-          <IoCheckmarkDoneCircleSharp className="text-green-600 text-xl" />
-          <span className="text-sm font-medium">Booked</span>
-        </div>
+
+        {isBookedByUser && (
+          <div className="absolute top-3 right-3 z-20 px-4 py-2 bg-white rounded-md flex items-center gap-2 shadow-md">
+            <IoCheckmarkDoneCircleSharp className="text-green-600 text-xl" />
+            <span className="text-sm font-medium">You booked this</span>
+          </div>
+        )}
+
+        {/* <span className="text-sm font-medium">Cancel Booking</span> */}
       </div>
 
       {/* Content */}
@@ -51,22 +64,56 @@ function Card({ data }) {
           {data.description}
         </p>
 
-        {/* Buttons */}
-        {(!currentUser || data?.host?._id !== currentUser?._id) && (
-          <button
-            className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md mt-auto"
-            onClick={() => navigate(`/booking/${data._id}`)}
-          >
-            Book Now
-          </button>
-        )}
+        {/* Logic and Button Rendering */}
+        <div className="mt-auto space-y-2">
+          {/* 1️⃣ Not logged in → redirect to login */}
+          {!isLoggedIn && (
+            <button
+              className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md"
+              onClick={() => navigate("/login")}
+            >
+              Book Now
+            </button>
+          )}
 
-        {currentUser && data?.host?._id === currentUser._id && (
-          <button className="w-full py-2 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-all duration-300 shadow-md flex items-center gap-2 justify-center mt-auto">
-            <MdDelete className="text-pink-200 text-xl" />
-            Delete Listing
-          </button>
-        )}
+          {/* 2️⃣ Logged in & not owner & not booked → Book Now */}
+          {isLoggedIn && !isOwner && !isBookedByUser && !isBookedByOthers && (
+            <button
+              className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md"
+              onClick={() => navigate(`/booking/${data._id}`)}
+            >
+              Book Now
+            </button>
+          )}
+
+          {/* 3️⃣ Logged in & user has booked → Cancel Booking */}
+          {isLoggedIn && isBookedByUser && (
+            <button
+              className="w-full py-2 bg-yellow-500 text-white font-medium rounded-xl hover:bg-yellow-600 transition-all duration-300 shadow-md"
+              onClick={() => console.log("Cancel Booking")}
+            >
+              Cancel Booking
+            </button>
+          )}
+
+          {/* 4️⃣ Logged in & booked by someone else → Already Booked (disabled) */}
+          {isLoggedIn && isBookedByOthers && (
+            <button
+              className="w-full py-2 bg-gray-400 text-white font-medium rounded-xl cursor-not-allowed shadow-md"
+              disabled
+            >
+              Already Booked
+            </button>
+          )}
+
+          {/* 5️⃣ Owner → Delete Listing */}
+          {isLoggedIn && isOwner && !isBookedByOthers && (
+            <button className="w-full py-2 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-all duration-300 shadow-md flex items-center gap-2 justify-center">
+              <MdDelete className="text-pink-200 text-xl" />
+              Delete Listing
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

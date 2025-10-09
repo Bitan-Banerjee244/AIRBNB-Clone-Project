@@ -14,6 +14,9 @@ export const getCurrentUser = async (req, res) => {
         let user = await User.findById(userId).select("-password").populate({
             path: "listings",
             select: "title description price image1 image2 image3"
+        }).populate({
+            path: "bookings",
+            select: "rentingHouse",
         });
 
         if (!user) {
