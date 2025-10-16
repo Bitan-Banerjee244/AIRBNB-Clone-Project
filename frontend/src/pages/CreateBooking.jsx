@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import useCurrentUser from "../hooks/useCurrentUser";
 import useListing from "../hooks/useListing";
+import { IoChevronBackCircle } from "react-icons/io5";
 
 function CreateBooking() {
   let { id } = useParams();
@@ -10,7 +11,7 @@ function CreateBooking() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
-  let { currentUser,reloadUser } = useCurrentUser();
+  let { currentUser, reloadUser } = useCurrentUser();
   let navigate = useNavigate();
   let { reloadListings } = useListing();
 
@@ -69,11 +70,18 @@ function CreateBooking() {
       : 0;
   return (
     <>
-      <div className="relative w-screen h-screen p-4 flex">
-        <div className="w-[50%] h-full " id="house-details p-4">
+      <div className="relative w-screen min-h-screen p-4 flex flex-col lg:flex-row gap-4 ">
+        <div className="w-full lg:w-1/2 h-full " id="house-details p-4">
+          <h1 className="flex gap-2 items-center text-3xl font-bold ml-2 cursor-pointer">
+            <IoChevronBackCircle
+              className="text-[#EF4444]"
+              onClick={()=>navigate("/")}
+            />
+            Book Now
+          </h1>
           <div
             id="image-section"
-            className="w-full h-[70%]  p-4 flex flex-col justify-between"
+            className="w-full h-[70vh]  p-4 flex flex-col justify-between"
           >
             <img
               src={houseData?.image1}
@@ -99,7 +107,7 @@ function CreateBooking() {
           {/* Description */}
           <div
             id="description"
-            className="w-full h-[30%] mt-2 p-4 bg-gray-100 rounded-xl shadow-inner"
+            className="w-full h-[25%] mt-2 p-4 bg-gray-100 rounded-xl shadow-inner"
           >
             <h2 className="text-2xl font-bold text-gray-800 mb-1">
               {houseData?.title}
@@ -120,9 +128,9 @@ function CreateBooking() {
         {/* Booking Section */}
         <div
           id="booking"
-          className="w-[50%] h-full p-4 bg-gray-50 rounded-xl shadow-md"
+          className="w-full lg:w-1/2 h-full p-4 bg-gray-50 rounded-xl shadow-md"
         >
-          <h1 className="text-2xl font-bold mb-4">Book Now</h1>
+          <h1 className="text-2xl font-bold mb-4">Billings</h1>
           <form className="flex flex-col gap-4" onSubmit={handleBooking}>
             {/* Check-in Date */}
             <div className="flex flex-col">

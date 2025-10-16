@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function Card({ data }) {
   const { currentUser } = useSelector((state) => state.user);
   let navigate = useNavigate();
-  console.log(data);
+  // console.log(data);
   const isLoggedIn = !!currentUser;
   const isOwner = currentUser?._id === data?.host?._id;
   const isBookedByUser = currentUser?.bookings?.some(
