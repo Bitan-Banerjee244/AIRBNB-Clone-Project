@@ -86,12 +86,12 @@ function CreateListing() {
         {/* Image Upload Container */}
         <div
           id="image-container"
-          className="w-full flex flex-wrap justify-around gap-3 mt-2"
+          className="w-full flex flex-wrap justify-around gap-3 mt-2 p-2"
         >
           <img
             src={fimage1 || plus}
             alt="image1"
-            className="h-[200px] w-[340px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
+            className="h-[200px] w-[330px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
             onClick={() => {
               document.querySelector("#file1").click();
             }}
@@ -99,7 +99,7 @@ function CreateListing() {
           <img
             src={fimage2 || plus}
             alt="image2"
-            className="w-[340px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
+            className="w-[330px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
             onClick={() => {
               document.querySelector("#file2").click();
             }}
@@ -107,15 +107,15 @@ function CreateListing() {
           <img
             src={fimage3 || plus}
             alt="image3"
-            className="w-[340px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
+            className="w-[330px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
             onClick={() => {
               document.querySelector("#file3").click();
             }}
           />
         </div>
 
-        <h5 className="text-xl ml-2 text-center lg:text-left mt-2">
-          Upload Images
+        <h5 className="text-xl ml-2 text-center lg:text-left mt-2 font-semibold">
+          Upload Images*
         </h5>
 
         {/* Form */}
@@ -227,7 +227,7 @@ function CreateListing() {
 
       {/* Right Section: Your Listings */}
       <div className="lg:w-[30%] w-[100%] lg:h-screen overflow-y-auto mt-6 lg:mt-0">
-        <h1 className="text-3xl font-semibold mb-3 ml-8">Your Listing</h1>
+        <h1 className="text-3xl font-semibold mb-3 ml-8">Your Listings</h1>
         <div
           id="listing-Container"
           className="flex flex-col items-center justify-start gap-4 px-4"

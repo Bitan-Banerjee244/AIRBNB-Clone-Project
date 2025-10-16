@@ -1,4 +1,4 @@
-import React from "react";
+import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 
 function ListingCard({ data }) {
   return (
@@ -28,8 +28,17 @@ function ListingCard({ data }) {
         <p className="text-gray-600 text-sm line-clamp-3 mt-1">
           {data.description}
         </p>
-        <div className="mt-2 border-t border-gray-200 pt-1">
+        <div className="mt-2 border-t border-gray-200 pt-1 flex justify-between">
           <span className="font-bold text-red-500">₹{data.price}</span>
+          <span className="font-semibold text-green-500">
+            {data && data?.isBooked ? (
+              <div className="flex items-center gap-1">
+                <IoCheckmarkDoneCircleSharp /> Booked by others
+              </div>
+            ) : (
+              ""
+            )}
+          </span>
         </div>
       </div>
     </div>

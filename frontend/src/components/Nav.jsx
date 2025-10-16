@@ -8,9 +8,9 @@ import { PiWarehouseFill } from "react-icons/pi";
 import { BsHousesFill } from "react-icons/bs";
 import { GiFamilyHouse } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../store/userSlice";
 import toast from "react-hot-toast";
 
@@ -19,6 +19,20 @@ function Nav() {
   let [showPopUpMenu, setShowPopUpMenu] = useState(false);
   let navigate = useNavigate();
   let dispatch = useDispatch();
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowPopUpMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLogOut = async () => {
     try {
@@ -78,6 +92,7 @@ function Nav() {
               id="popup"
               className="absolute w-[200px] h-[200px] top-[80px] right-0 shadow-lg border-2 border-gray-200 
                          border-solid flex flex-col justify-around p-4 z-60 bg-white"
+              ref={popupRef}
             >
               {!currentUser && (
                 <Link
