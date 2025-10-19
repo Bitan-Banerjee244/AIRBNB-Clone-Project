@@ -62,7 +62,6 @@ function CreateListing() {
     }
   };
 
-
   return (
     <div className="relative flex flex-col lg:flex-row justify-between gap-6">
       {/* Left Section: Create Listing */}
@@ -222,12 +221,40 @@ function CreateListing() {
         <h1 className="text-2xl font-semibold my-2 ml-8">Your Listings...</h1>
         <div
           id="listing-Container"
-          className="flex flex-col items-center justify-start gap-2 px-4"
+          className="flex flex-col items-center justify-start gap-4 px-4 py-4"
         >
-          {currentUser &&
-            currentUser?.listings?.map((data) => (
+          {currentUser?.listings && currentUser.listings.length > 0 ? (
+            currentUser.listings.map((data) => (
               <ListingCard data={data} key={data._id} />
-            ))}
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center text-center gap-3 py-10 w-full">
+              <svg
+                className="w-16 h-16 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 7h18M3 12h18M3 17h18"
+                />
+              </svg>
+              <h2 className="text-lg font-semibold text-gray-700">
+                No Listings Yet
+              </h2>
+              <p className="text-gray-500 text-sm">
+                You haven't created any listings. Start adding your properties
+                to show here!
+              </p>
+              <button className="mt-2 bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition-all">
+                Add Listing
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
