@@ -53,7 +53,7 @@ function CreateBooking() {
         { withCredentials: true }
       );
       reloadUser();
-      // reloadListings();
+      reloadListings();
       console.log(response?.data);
       navigate("/");
     } catch (error) {
@@ -75,7 +75,7 @@ function CreateBooking() {
           <h1 className="flex gap-2 items-center text-3xl font-bold ml-2 cursor-pointer">
             <IoChevronBackCircle
               className="text-[#EF4444]"
-              onClick={()=>navigate("/")}
+              onClick={() => navigate("/")}
             />
             Book Now
           </h1>
@@ -84,7 +84,7 @@ function CreateBooking() {
             className="w-full h-[70vh]  p-4 flex flex-col justify-between"
           >
             <img
-              src={houseData?.image1}
+              src={houseData?.image1?.url}
               alt=""
               className="w-full h-[60%] object-cover rounded-md"
             />
@@ -93,12 +93,12 @@ function CreateBooking() {
               id="side-images"
             >
               <img
-                src={houseData?.image2}
+                src={houseData?.image2?.url}
                 alt=""
                 className="w-[49%] h-[100%] object-cover rounded-md"
               />
               <img
-                src={houseData?.image3}
+                src={houseData?.image3?.url}
                 alt=""
                 className="w-[49%] h-[100%] object-cover rounded-md"
               />

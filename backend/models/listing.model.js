@@ -14,24 +14,18 @@ let listingSchema = new mongoose.Schema({
         required: true,
     },
     image1: {
-        type: String,
-        required: true
+        url: { type: String, required: true },
+        public_id: { type: String, required: true }
     },
-    image2: {
-        type: String,
-        required: true
-    },
-    image3: {
-        type: String,
-        required: true
-    },
+    image2: { url: String, public_id: String },
+    image3: { url: String, public_id: String },
     host: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
     },
     category: { type: String, default: "Houses" },
-    
+
     isBooked: {
         type: Boolean,
         default: false

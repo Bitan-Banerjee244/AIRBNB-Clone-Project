@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { IoChevronBackCircle } from "react-icons/io5";
-import plus from "../assets/plus.png";
+import plus from "../assets/image.png";
 import house1 from "../assets/house1.webp";
 import house2 from "../assets/house2.webp";
 import house3 from "../assets/house3.webp";
@@ -26,7 +26,7 @@ function CreateListing() {
   let [title, setTitle] = useState("");
   let [desc, setDesc] = useState("");
   let [price, setPrice] = useState("");
-  let [category, setCategory] = useState(""); 
+  let [category, setCategory] = useState("");
   let { reloadListings } = useListing();
   let { currentUser, reloadUser } = useCurrentUser();
   let [loader, setLoader] = useState(false);
@@ -40,15 +40,14 @@ function CreateListing() {
     formData.append("title", title);
     formData.append("description", desc);
     formData.append("price", price);
-    formData.append("category", category); 
+    formData.append("category", category);
 
     try {
       setLoader(true);
-      let response = await axios.post(
-        "http://localhost:8000/api/v2/createlisting",
-        formData,
-        { withCredentials: true }
-      );
+      let response = await axios.post("http://localhost:8000/api/v2/createlisting", formData, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       toast.success("List Created Successfully");
       console.log(response.data);
       navigate("/");
@@ -91,7 +90,7 @@ function CreateListing() {
           <img
             src={fimage1 || plus}
             alt="image1"
-            className="h-[200px] w-[330px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
+            className="h-[200px] w-[330px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer border-2 bolder-solid border-[#4a434376] "
             onClick={() => {
               document.querySelector("#file1").click();
             }}
@@ -99,7 +98,7 @@ function CreateListing() {
           <img
             src={fimage2 || plus}
             alt="image2"
-            className="w-[330px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
+            className="w-[330px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer border-2 bolder-solid border-[#4a434376]"
             onClick={() => {
               document.querySelector("#file2").click();
             }}
@@ -107,7 +106,7 @@ function CreateListing() {
           <img
             src={fimage3 || plus}
             alt="image3"
-            className="w-[330px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer"
+            className="w-[330px] h-[200px] bg-gray-300 shadow-sm rounded-lg object-cover cursor-pointer border-2 bolder-solid border-[#4a434376]"
             onClick={() => {
               document.querySelector("#file3").click();
             }}

@@ -10,7 +10,7 @@ function Card({ data }) {
   const isLoggedIn = !!currentUser;
   const isOwner = currentUser?._id === data?.host?._id;
   const isBookedByUser = currentUser?.bookings?.some(
-    (b) => b?.rentingHouse?.toString() === data?._id?.toString()
+    (b) => b?.rentingHouse?._id?.toString() === data?._id?.toString()
   );
   const isBooked = data?.isBooked || false;
   const isBookedByOthers = !isBookedByUser && data?.isBooked;
@@ -21,17 +21,17 @@ function Card({ data }) {
       <div className="w-full h-[180px] lg:h-[220px] overflow-hidden relative flex-none">
         <div className="flex w-full h-full overflow-x-scroll scroll-smooth snap-x snap-mandatory scrollbar-hide">
           <img
-            src={data.image1}
+            src={data?.image1?.url}
             alt="image1"
             className="w-full h-full object-cover flex-none snap-center"
           />
           <img
-            src={data.image2}
+            src={data.image2?.url}
             alt="image2"
             className="w-full h-full object-cover flex-none snap-center"
           />
           <img
-            src={data.image3}
+            src={data.image3?.url}
             alt="image3"
             className="w-full h-full object-cover flex-none snap-center"
           />

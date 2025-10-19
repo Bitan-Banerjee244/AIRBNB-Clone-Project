@@ -17,7 +17,11 @@ const uploadImage = async (filePath) => {
         });
 
         fs.unlinkSync(filePath);
-        return result.secure_url;
+
+        return {
+            url: result.secure_url,
+            public_id: result.public_id, 
+        };
 
 
     } catch (error) {

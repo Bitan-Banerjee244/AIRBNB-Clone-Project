@@ -6,17 +6,17 @@ function ListingCard({ data }) {
       {/* Images */}
       <div className="flex gap-1 p-2">
         <img
-          src={data.image1}
+          src={data?.image1?.url}
           alt="image1"
           className="w-1/3 h-20 object-cover rounded-md"
         />
         <img
-          src={data.image2}
+          src={data?.image2?.url}
           alt="image2"
           className="w-1/3 h-20 object-cover rounded-md"
         />
         <img
-          src={data.image3}
+          src={data?.image3?.url}
           alt="image3"
           className="w-1/3 h-20 object-cover rounded-md"
         />

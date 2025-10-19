@@ -27,7 +27,7 @@ function ShowBooking() {
               {/* Left: Single Image */}
               <div className="w-full lg:w-[180px] p-1">
                 <img
-                  src={booking?.rentingHouse?.image1}
+                  src={booking?.rentingHouse?.image1?.url}
                   alt={booking?.rentingHouse?.title}
                   className="w-full h-36 lg:h-40 object-cover rounded-md"
                 />
