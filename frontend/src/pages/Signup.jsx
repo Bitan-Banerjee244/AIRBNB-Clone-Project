@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { setCurrentUser } from "../store/userSlice";
 import useCurrentUser from "../hooks/useCurrentUser";
 
 function Signup() {
@@ -58,7 +57,7 @@ function Signup() {
                 id="label-container"
                 className="w-full h-[50%]  flex flex-col gap-[10px]"
               >
-                <label htmlFor="">Name</label>
+                <label htmlFor="">Name*</label>
                 <input
                   type="text"
                   placeholder="Enter Your Name"
@@ -67,7 +66,7 @@ function Signup() {
                   className="w-full h-[40px] bg-gray-200 p-3 rounded-lg"
                   onChange={(e) => setUserName(e.target.value)}
                 />
-                <label htmlFor="">Email</label>
+                <label htmlFor="">Email*</label>
                 <input
                   type="email"
                   placeholder="Enter Your Email"
@@ -75,7 +74,7 @@ function Signup() {
                   className="w-full h-[40px] bg-gray-200 p-3 rounded-lg"
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <label htmlFor="">Password</label>
+                <label htmlFor="">Password*</label>
                 <div className="w-full flex">
                   <input
                     type={showPassword ? "password" : "text"}
@@ -103,18 +102,19 @@ function Signup() {
                   type="submit"
                   className="w-full p-3 bg-orange-500 rounded-xl text-white hover:bg-orange-700 transition-all duration-300"
                 >
-                  Sign UP
+                  Sign Up
                 </button>
-                <span className="mt-4">
-                  Already Have a account ? <Link to="/login">Login</Link>{" "}
+                <span className="mt-4 font-semibold">
+                  Already Have a account ? <Link to="/login" className="text-blue-900">Login</Link>{" "}
                 </span>
               </div>
             </form>
           </div>
           <div
             id="right-section"
-            className="sm:w-1/2 w-[0%] h-full bg-gradient-to-br from-orange-500 to-pink-500 rounded-tr-[30px] rounded-br-[30px]"
-          ></div>
+            className="sm:w-1/2 w-[0%] h-full bg-gradient-to-br from-orange-500 to-pink-500 rounded-tr-[30px] rounded-br-[30px] text-5xl flex items-center text-white pl-5"
+          >
+          </div>
         </div>
       </div>
     </>

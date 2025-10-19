@@ -67,7 +67,7 @@ function CreateListing() {
     <div className="relative flex flex-col lg:flex-row justify-between gap-6">
       {/* Left Section: Create Listing */}
       <div className="w-[100%] lg:w-[70%] lg:h-screen flex flex-col">
-        <h1 className="text-3xl font-semibold mb-2 gap-2 flex items-center justify-center lg:justify-start ml-2">
+        <h1 className="text-3xl font-semibold gap-2 flex items-center justify-center lg:justify-start ml-2">
           <IoChevronBackCircle
             className="text-red-500 cursor-pointer"
             onClick={() => navigate("/")}
@@ -106,13 +106,13 @@ function CreateListing() {
           />
         </div>
 
-        <h5 className="text-xl ml-2 text-center lg:text-left mt-2 font-semibold">
+        <h5 className="text-xl ml-3 text-center lg:text-left mt-2 font-semibold text-red-700">
           Upload Images*
         </h5>
 
         {/* Form */}
         <form
-          className="mt-3 w-full lg:max-h-[400px] p-4 flex flex-col gap-4 overflow-y-auto"
+          className="mt-3 w-full lg:max-h-[550px] p-4 flex flex-col gap-4 overflow-y-auto"
           onSubmit={handleSubmitData}
         >
           {/* Hidden file inputs */}
@@ -212,17 +212,17 @@ function CreateListing() {
             type="submit"
             className="bg-red-400 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-all"
           >
-            {loader ? "Creating..." : "Create Listing"}
+            {loader ? "Please wait ! Creating Your List...." : "Host a house"}
           </button>
         </form>
       </div>
 
       {/* Right Section: Your Listings */}
-      <div className="lg:w-[30%] w-[100%] lg:h-screen overflow-y-auto mt-6 lg:mt-0 bg-green-100">
-        <h1 className="text-2xl font-semibold mb-2 ml-8">Your Listings</h1>
+      <div className="lg:w-[30%] w-[100%] lg:h-screen overflow-y-auto mt-6 lg:mt-0 bg-green-100 border-l-2 border-lime border-green-700">
+        <h1 className="text-2xl font-semibold my-2 ml-8">Your Listings...</h1>
         <div
           id="listing-Container"
-          className="flex flex-col items-center justify-start gap-4 px-4"
+          className="flex flex-col items-center justify-start gap-2 px-4"
         >
           {currentUser &&
             currentUser?.listings?.map((data) => (

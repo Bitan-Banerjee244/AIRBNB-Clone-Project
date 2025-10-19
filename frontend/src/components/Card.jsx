@@ -6,13 +6,15 @@ import useListing from "../hooks/useListing";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import useCurrentUser from "../hooks/useCurrentUser";
+import { AiOutlineFileDone } from "react-icons/ai";
+import { MdFreeCancellation } from "react-icons/md";
+import { RxValueNone } from "react-icons/rx";
 
 function Card({ data }) {
   const { currentUser } = useSelector((state) => state.user);
   const { reloadListings } = useListing();
   const { reloadUser } = useCurrentUser();
   let navigate = useNavigate();
-  // console.log(data);
   const isLoggedIn = !!currentUser;
   const isOwner = currentUser?._id === data?.host?._id;
   const isBookedByUser = currentUser?.bookings?.some(
@@ -73,15 +75,15 @@ function Card({ data }) {
       <div className="p-4 flex flex-col gap-2 flex-1">
         <div className="w-full flex justify-between items-start">
           <h2 className="text-lg lg:text-xl font-bold text-gray-800 truncate w-2/3">
-            {data.title}
+            {data?.title}
           </h2>
-          <p className="text-lg lg:text-2xl font-semibold text-orange-800 flex-none">
-            {data.price}/-
+          <p className="text-lg lg:text-2xl font-bold text-orange-800 flex-none">
+            ₹ {data?.price}/-
           </p>
         </div>
 
         <p className="text-gray-600 text-sm line-clamp-3 flex-1 overflow-hidden">
-          {data.description}
+          {data?.description}
         </p>
 
         {/* Logic and Button Rendering */}
@@ -89,9 +91,10 @@ function Card({ data }) {
           {/* 1️⃣ Not logged in → redirect to login */}
           {!isLoggedIn && (
             <button
-              className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md"
+              className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md flex justify-center items-center gap-2"
               onClick={() => navigate("/login")}
             >
+              <AiOutlineFileDone className="text-white" />
               Book Now
             </button>
           )}
@@ -99,9 +102,10 @@ function Card({ data }) {
           {/* 2️⃣ Logged in & not owner & not booked → Book Now */}
           {isLoggedIn && !isOwner && !isBookedByUser && !isBookedByOthers && (
             <button
-              className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md"
+              className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md flex justify-center items-center gap-2"
               onClick={() => navigate(`/booking/${data._id}`)}
             >
+              <AiOutlineFileDone className="text-white" />
               Book Now
             </button>
           )}
@@ -109,9 +113,10 @@ function Card({ data }) {
           {/* 3️⃣ Logged in & user has booked → Cancel Booking */}
           {isLoggedIn && isBookedByUser && (
             <button
-              className="w-full py-2 bg-yellow-500 text-white font-medium rounded-xl hover:bg-yellow-600 transition-all duration-300 shadow-md"
+              className="w-full py-2 bg-yellow-500 text-white font-medium rounded-xl hover:bg-yellow-600 transition-all duration-300 shadow-md flex justify-center items-center gap-2"
               onClick={() => navigate("/yourbooking")}
             >
+              <MdFreeCancellation />
               Cancel Booking
             </button>
           )}
@@ -119,9 +124,10 @@ function Card({ data }) {
           {/* 4️⃣ Logged in & booked by someone else → Already Booked (disabled) */}
           {isLoggedIn && isBookedByOthers && (
             <button
-              className="w-full py-2 bg-gray-400 text-white font-medium rounded-xl cursor-not-allowed shadow-md"
+              className="w-full py-2 bg-gray-400 text-white font-medium rounded-xl cursor-not-allowed shadow-md flex justify-center items-center gap-2"
               disabled
             >
+              <RxValueNone />
               Already Booked
             </button>
           )}

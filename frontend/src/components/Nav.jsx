@@ -66,20 +66,20 @@ function Nav() {
 
         {/* Search Bar */}
         <div
-          className="hidden lg:flex w-[700px] h-[60px] bg-white rounded-[30px] px-4 
-                        shadow-lg items-center border-2 border-solid border-gray-200"
+          className="hidden lg:flex w-[700px] h-[50px] bg-white rounded-[30px] px-4 
+                        shadow-lg items-center border-2 border-solid border-gray-300"
         >
           <input
             type="text"
             placeholder="Search for homes and mansion"
-            className="flex-1 h-[80%] text-gray-700 px-4 bg-transparent outline-none rounded-3xl"
+            className="flex-1 h-[80%] text-gray-700 px-4 bg-transparent outline-none  border-r-2 border-solid border-orange-500 "
           />
           <FaSearch className="mx-4 text-red-600 cursor-pointer text-xl" />
         </div>
 
         {/* Right Section */}
-        <div className="w-[100px] h-[60%] rounded-[30px] flex items-center justify-evenly shadow-md relative">
-          <div className="w-[30px] h-[30px] rounded-full bg-violet-900 text-white flex items-center justify-center cursor-pointer">
+        <div className="w-[100px] h-[60%] rounded-[30px] flex items-center justify-evenly shadow-md relative border-2 border-solid border-gray-200">
+          <div className="w-[30px] h-[30px] rounded-full bg-violet-900 text-white flex items-center justify-center cursor-pointer border-2 border-solid border-purple-700">
             {currentUser?.userName?.[0]?.toUpperCase() || "U"}
           </div>
           <GiHamburgerMenu

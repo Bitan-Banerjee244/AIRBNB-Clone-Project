@@ -2,7 +2,7 @@ import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 
 function ListingCard({ data }) {
   return (
-    <div className="w-full max-w-sm bg-white shadow-md  border-2 border-solid border-[#65636357] rounded-lg overflow-hidden mb-4">
+    <div className="w-full max-w-sm bg-white shadow-md  border-2 border-solid border-[#65636357] rounded-lg overflow-hidden mb-2">
       {/* Images */}
       <div className="flex gap-1 p-2">
         <img

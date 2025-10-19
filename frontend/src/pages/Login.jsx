@@ -56,7 +56,7 @@ function Signup() {
                 id="label-container"
                 className="w-full h-[50%]  flex flex-col gap-[10px]"
               >
-                <label htmlFor="">Email</label>
+                <label htmlFor="">Email*</label>
                 <input
                   type="email"
                   placeholder="Enter Your Email"
@@ -64,7 +64,7 @@ function Signup() {
                   className="w-full h-[40px] bg-gray-200 p-3 rounded-lg"
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <label htmlFor="">Password</label>
+                <label htmlFor="">Password*</label>
                 <div className="w-full flex">
                   <input
                     type={showPassword ? "password" : "text"}
@@ -94,9 +94,9 @@ function Signup() {
                 >
                   Login
                 </button>
-                <span className="mt-2 text-[0.8rem] md:text-[1rem]">
+                <span className="mt-2 text-[0.8rem] md:text-[1rem] font-semibold">
                   Want to create a new account ?{" "}
-                  <Link to="/signup">Signup</Link>{" "}
+                  <Link to="/signup" className="text-blue-900">Signup</Link>{" "}
                 </span>
               </div>
             </form>

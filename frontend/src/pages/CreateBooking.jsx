@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import useCurrentUser from "../hooks/useCurrentUser";
 import useListing from "../hooks/useListing";
 import { IoChevronBackCircle } from "react-icons/io5";
+import { toast } from "react-hot-toast";
+import { AiOutlineFileDone } from "react-icons/ai";
 
 function CreateBooking() {
   let { id } = useParams();
@@ -54,10 +56,13 @@ function CreateBooking() {
       );
       reloadUser();
       reloadListings();
+      toast.success("Booking was successful!");
       console.log(response?.data);
       navigate("/");
     } catch (error) {
-      console.log(`Error occurred in Booking component!! : ${error}`);
+      toast.error(error?.response?.data?.message);
+      console.log(error?.response?.data?.message);
+      console.log(`Error occurred in Booking component!! : ${error.message}`);
     }
   };
 
@@ -70,8 +75,8 @@ function CreateBooking() {
       : 0;
   return (
     <>
-      <div className="relative w-screen min-h-screen p-4 flex flex-col lg:flex-row gap-4 ">
-        <div className="w-full lg:w-1/2 h-full " id="house-details p-4">
+      <div className="relative w-screen min-h-screen p-4 flex flex-col lg:flex-row gap-2 ">
+        <div className="w-full lg:w-1/2 h-full " id="house-details">
           <h1 className="flex gap-2 items-center text-3xl font-bold ml-2 cursor-pointer">
             <IoChevronBackCircle
               className="text-[#EF4444]"
@@ -81,7 +86,7 @@ function CreateBooking() {
           </h1>
           <div
             id="image-section"
-            className="w-full h-[70vh]  p-4 flex flex-col justify-between"
+            className="w-full h-[70vh] p-2 flex flex-col justify-between"
           >
             <img
               src={houseData?.image1?.url}
@@ -120,7 +125,7 @@ function CreateBooking() {
             </p>
 
             <p className="text-lg font-semibold text-green-600">
-              💰 Price: ₹{houseData?.price} / night
+              Price: ₹{houseData?.price} / night
             </p>
           </div>
         </div>
@@ -128,21 +133,21 @@ function CreateBooking() {
         {/* Booking Section */}
         <div
           id="booking"
-          className="w-full lg:w-1/2 h-full p-4 bg-gray-50 rounded-xl shadow-md"
+          className="w-full lg:w-[49%] h-full p-4 bg-green-100 rounded-xl shadow-md border-2 border-solid border-green-700"
         >
           <h1 className="text-2xl font-bold mb-4">Billings</h1>
           <form className="flex flex-col gap-4" onSubmit={handleBooking}>
             {/* Check-in Date */}
             <div className="flex flex-col">
-              <label htmlFor="checkin" className="font-semibold mb-1">
+              <label htmlFor="checkIn" className="font-semibold mb-1">
                 Check-in
               </label>
               <input
                 type="date"
-                id="checkin"
-                name="checkin"
+                id="checkIn"
+                name="checkIn"
                 min={new Date().toISOString().split("T")[0]}
-                className="p-2 border rounded-md"
+                className="p-2 border rounded-lg"
                 onChange={(e) => setCheckIn(e.target.value)}
               />
             </div>
@@ -157,13 +162,13 @@ function CreateBooking() {
                 id="checkout"
                 name="checkout"
                 min={new Date().toISOString().split("T")[0]}
-                className="p-2 border rounded-md"
+                className="p-2 border rounded-lg"
                 onChange={(e) => setCheckOut(e.target.value)}
               />
             </div>
 
             {/* Billing Section */}
-            <div className="p-4 bg-white rounded-md shadow-inner mt-2">
+            <div className="p-4 bg-white rounded-lg shadow-inner mt-2 ">
               <h2 className="text-xl font-semibold mb-2">Billing Summary</h2>
               <p>Price per Night: ₹{houseData?.price}</p>
               <p>Number of Nights: {numberOfNights || 0}</p>
@@ -175,8 +180,9 @@ function CreateBooking() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition"
+              className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition flex justify-center items-center gap-2"
             >
+              <AiOutlineFileDone />
               Confirm Booking
             </button>
           </form>
