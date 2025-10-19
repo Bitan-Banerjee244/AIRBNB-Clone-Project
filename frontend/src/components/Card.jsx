@@ -2,9 +2,13 @@ import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import useListing from "../hooks/useListing";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 function Card({ data }) {
   const { currentUser } = useSelector((state) => state.user);
+  const { reloadListings } = useListing();
   let navigate = useNavigate();
   // console.log(data);
   const isLoggedIn = !!currentUser;
@@ -14,6 +18,19 @@ function Card({ data }) {
   );
   const isBooked = data?.isBooked || false;
   const isBookedByOthers = !isBookedByUser && data?.isBooked;
+
+  const handleDeleteListing = async () => {
+    try {
+      let response = await axios.delete(
+        `http://localhost:8000/api/v2/deleteData/${data?._id}`
+      );
+      console.log(response.data);
+      reloadListings();
+      toast.success("Listing Deleted Successfully!!");
+    } catch (error) {
+      console.log("Error Occurred in deleting a List", error);
+    }
+  };
 
   return (
     <div className="w-[300px] lg:w-[450px] h-[400px] border border-gray-200 shadow-lg rounded-2xl overflow-hidden bg-white hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 flex flex-col">
@@ -108,7 +125,10 @@ function Card({ data }) {
 
           {/* 5️⃣ Owner → Delete Listing */}
           {isLoggedIn && isOwner && !isBookedByOthers && (
-            <button className="w-full py-2 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-all duration-300 shadow-md flex items-center gap-2 justify-center">
+            <button
+              className="w-full py-2 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-all duration-300 shadow-md flex items-center gap-2 justify-center"
+              onClick={handleDeleteListing}
+            >
               <MdDelete className="text-pink-200 text-xl" />
               Delete Listing
             </button>
