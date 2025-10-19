@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IoChevronBackCircle } from "react-icons/io5";
+import { AiOutlineInbox } from "react-icons/ai"; // empty inbox icon
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { MdCancel } from "react-icons/md";
@@ -30,7 +31,7 @@ function ShowBooking() {
 
   return (
     <div className="w-screen min-h-screen p-4 bg-gray-50">
-      <div className="flex items-center mb-4 ">
+      <div className="flex items-center mb-4">
         <IoChevronBackCircle
           className="text-3xl mr-2 text-red-500 cursor-pointer"
           onClick={() => navigate("/")}
@@ -38,9 +39,9 @@ function ShowBooking() {
         <h1 className="text-3xl font-semibold text-gray-800">Your Bookings</h1>
       </div>
 
-      <div className="flex flex-col gap-4">
-        {currentUser &&
-          currentUser?.bookings.map((booking) => (
+      {currentUser?.bookings?.length > 0 ? (
+        <div className="flex flex-col gap-4">
+          {currentUser.bookings.map((booking) => (
             <div
               key={booking?._id}
               className="flex flex-col lg:flex-row w-full bg-white rounded-lg shadow-md overflow-hidden"
@@ -94,7 +95,25 @@ function ShowBooking() {
               </div>
             </div>
           ))}
-      </div>
+        </div>
+      ) : (
+        <div className="w-full h-[60vh] flex flex-col items-center justify-center text-center gap-4">
+          <AiOutlineInbox className="text-7xl text-gray-400" />
+          <h2 className="text-2xl font-semibold text-gray-700">
+            No Bookings Yet
+          </h2>
+          <p className="text-gray-500 max-w-sm">
+            You haven't booked any houses yet. Explore listings and find your
+            dream home today!
+          </p>
+          <button
+            className="mt-2 bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 transition-all"
+            onClick={() => navigate("/")}
+          >
+            Explore Listings
+          </button>
+        </div>
+      )}
     </div>
   );
 }
