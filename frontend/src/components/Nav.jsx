@@ -13,6 +13,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../store/userSlice";
 import toast from "react-hot-toast";
+import { useUser } from "../contexts/userContext";
 
 function Nav() {
   let currentUser = useSelector((state) => state.user.currentUser);
@@ -20,6 +21,7 @@ function Nav() {
   let navigate = useNavigate();
   let dispatch = useDispatch();
   const popupRef = useRef(null);
+  const { SERVER_URL } = useUser();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -36,7 +38,7 @@ function Nav() {
 
   const handleLogOut = async () => {
     try {
-      let response = await axios.get("http://localhost:8000/api/v2/logout", {
+      let response = await axios.get(`${SERVER_URL}/api/v2/logout`, {
         withCredentials: true,
       });
       dispatch(setCurrentUser(null));

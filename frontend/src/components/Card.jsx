@@ -9,6 +9,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdFreeCancellation } from "react-icons/md";
 import { RxValueNone } from "react-icons/rx";
+import { useUser } from "../contexts/userContext";
 
 function Card({ data }) {
   const { currentUser } = useSelector((state) => state.user);
@@ -22,11 +23,12 @@ function Card({ data }) {
   );
   const isBooked = data?.isBooked || false;
   const isBookedByOthers = !isBookedByUser && data?.isBooked;
+  const { SERVER_URL } = useUser();
 
   const handleDeleteListing = async () => {
     try {
       let response = await axios.delete(
-        `http://localhost:8000/api/v2/deleteData/${data?._id}`
+        `${SERVER_URL}/api/v2/deleteData/${data?._id}`
       );
       console.log(response.data);
       reloadUser();

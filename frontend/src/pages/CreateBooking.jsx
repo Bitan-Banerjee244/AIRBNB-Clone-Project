@@ -6,6 +6,7 @@ import useListing from "../hooks/useListing";
 import { IoChevronBackCircle } from "react-icons/io5";
 import { toast } from "react-hot-toast";
 import { AiOutlineFileDone } from "react-icons/ai";
+import { useUser } from "../contexts/userContext";
 
 function CreateBooking() {
   let { id } = useParams();
@@ -16,13 +17,13 @@ function CreateBooking() {
   let { currentUser, reloadUser } = useCurrentUser();
   let navigate = useNavigate();
   let { reloadListings } = useListing();
+  const { SERVER_URL } = useUser();
 
   const getData = async () => {
     try {
-      let response = await axios.get(
-        `http://localhost:8000/api/v2/getdata/${id}`,
-        { withCredentials: true }
-      );
+      let response = await axios.get(`${SERVER_URL}/api/v2/getdata/${id}`, {
+        withCredentials: true,
+      });
       setHouseData(response?.data?.house);
       console.log(response?.data?.house);
     } catch (error) {
@@ -44,7 +45,7 @@ function CreateBooking() {
     e.preventDefault();
     try {
       let response = await axios.post(
-        `http://localhost:8000/api/v2/createbooking`,
+        `${SERVER_URL}/api/v2/createbooking`,
         {
           checkIn,
           checkOut,

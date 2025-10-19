@@ -7,6 +7,7 @@ import axios from "axios";
 import useListing from "../hooks/useListing";
 import toast from "react-hot-toast";
 import useCurrentUser from "../hooks/useCurrentUser";
+import { useUser } from "../contexts/userContext";
 
 function CreateListing() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function CreateListing() {
   let { reloadListings } = useListing();
   let { currentUser, reloadUser } = useCurrentUser();
   let [loader, setLoader] = useState(false);
+  const { SERVER_URL } = useUser();
 
   const handleSubmitData = async (e) => {
     e.preventDefault();
@@ -42,7 +44,7 @@ function CreateListing() {
     try {
       setLoader(true);
       let response = await axios.post(
-        "http://localhost:8000/api/v2/createlisting",
+        `${SERVER_URL}/api/v2/createlisting`,
         formData,
         {
           withCredentials: true,

@@ -7,17 +7,19 @@ import { MdCancel } from "react-icons/md";
 import useCurrentUser from "../hooks/useCurrentUser";
 import useListing from "../hooks/useListing";
 import toast from "react-hot-toast";
+import { useUser } from "../contexts/userContext";
 
 function ShowBooking() {
   const navigate = useNavigate();
   let { currentUser } = useSelector((state) => state.user);
   let { reloadUser } = useCurrentUser();
   let { reloadListings } = useListing();
+  const { SERVER_URL } = useUser();
 
   const handleCancelBooking = async (bookingId) => {
     try {
       let response = await axios.delete(
-        `http://localhost:8000/api/v2/cancelbooking/${bookingId}`
+        `${SERVER_URL}/api/v2/cancelbooking/${bookingId}`
       );
       console.log(response?.data);
       toast.success("Booking Cancelled Successfully!");

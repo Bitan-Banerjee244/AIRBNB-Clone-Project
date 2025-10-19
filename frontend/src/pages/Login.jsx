@@ -7,20 +7,21 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../store/userSlice";
 import useCurrentUser from "../hooks/useCurrentUser";
+import { useUser } from "../contexts/userContext";
 
 function Signup() {
   let [showPassword, setShowPassword] = useState(true);
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let navigate = useNavigate();
-  let dispatch = useDispatch();
+  let { SERVER_URL } = useUser();
   let { reloadUser } = useCurrentUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       let response = await axios.post(
-        "http://localhost:8000/api/v2/login",
+        `${SERVER_URL}/api/v2/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -96,7 +97,9 @@ function Signup() {
                 </button>
                 <span className="mt-2 text-[0.8rem] md:text-[1rem] font-semibold">
                   Want to create a new account ?{" "}
-                  <Link to="/signup" className="text-blue-900">Signup</Link>{" "}
+                  <Link to="/signup" className="text-blue-900">
+                    Signup
+                  </Link>{" "}
                 </span>
               </div>
             </form>

@@ -5,12 +5,15 @@ import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import store from "./store/store.jsx";
+import { UserProvider } from "./contexts/userContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-      <Toaster />
-    </BrowserRouter>
-  </Provider>
+  <UserProvider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+        <Toaster />
+      </BrowserRouter>
+    </Provider>
+  </UserProvider>
 );

@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import useCurrentUser from "../hooks/useCurrentUser";
+import { useUser } from "../contexts/userContext";
 
 function Signup() {
   let [showPassword, setShowPassword] = useState(true);
@@ -13,14 +14,14 @@ function Signup() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let navigate = useNavigate();
-  let dispatch = useDispatch();
   let { reloadUser } = useCurrentUser();
+  let { SERVER_URL } = useUser();
 
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
       let response = await axios.post(
-        "http://localhost:8000/api/v2/signup",
+        `${SERVER_URL}/api/v2/signup`,
         { userName, email, password },
         { withCredentials: true }
       );
@@ -105,7 +106,10 @@ function Signup() {
                   Sign Up
                 </button>
                 <span className="mt-4 font-semibold">
-                  Already Have a account ? <Link to="/login" className="text-blue-900">Login</Link>{" "}
+                  Already Have a account ?{" "}
+                  <Link to="/login" className="text-blue-900">
+                    Login
+                  </Link>{" "}
                 </span>
               </div>
             </form>
@@ -113,8 +117,7 @@ function Signup() {
           <div
             id="right-section"
             className="sm:w-1/2 w-[0%] h-full bg-gradient-to-br from-orange-500 to-pink-500 rounded-tr-[30px] rounded-br-[30px] text-5xl flex items-center text-white pl-5"
-          >
-          </div>
+          ></div>
         </div>
       </div>
     </>
