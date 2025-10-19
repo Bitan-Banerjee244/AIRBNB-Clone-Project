@@ -15,6 +15,7 @@ function Card({ data }) {
   const { currentUser } = useSelector((state) => state.user);
   const { reloadListings } = useListing();
   const { reloadUser } = useCurrentUser();
+  const { SERVER_URL } = useUser();
   let navigate = useNavigate();
   const isLoggedIn = !!currentUser;
   const isOwner = currentUser?._id === data?.host?._id;
@@ -23,14 +24,14 @@ function Card({ data }) {
   );
   const isBooked = data?.isBooked || false;
   const isBookedByOthers = !isBookedByUser && data?.isBooked;
-  const { SERVER_URL } = useUser();
-
+  
+  // Delete Listing API call
   const handleDeleteListing = async () => {
     try {
       let response = await axios.delete(
         `${SERVER_URL}/api/v2/deleteData/${data?._id}`
       );
-      console.log(response.data);
+      // console.log(response.data);
       reloadUser();
       reloadListings();
       toast.success("Listing Deleted Successfully!!");
@@ -61,7 +62,6 @@ function Card({ data }) {
           />
         </div>
 
-        {/* Booked Tag - Always Visible */}
 
         {isBookedByUser && (
           <div className="absolute top-3 right-3 z-20 px-4 py-2 bg-white rounded-md flex items-center gap-2 shadow-md">
@@ -70,7 +70,6 @@ function Card({ data }) {
           </div>
         )}
 
-        {/* <span className="text-sm font-medium">Cancel Booking</span> */}
       </div>
 
       {/* Content */}
@@ -90,7 +89,7 @@ function Card({ data }) {
 
         {/* Logic and Button Rendering */}
         <div className="mt-auto space-y-2">
-          {/* 1️⃣ Not logged in → redirect to login */}
+          {/* Not logged in → redirect to login */}
           {!isLoggedIn && (
             <button
               className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md flex justify-center items-center gap-2"
@@ -101,7 +100,7 @@ function Card({ data }) {
             </button>
           )}
 
-          {/* 2️⃣ Logged in & not owner & not booked → Book Now */}
+          {/* Logged in & not owner & not booked → Book Now */}
           {isLoggedIn && !isOwner && !isBookedByUser && !isBookedByOthers && (
             <button
               className="w-full py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all duration-300 shadow-md flex justify-center items-center gap-2"
@@ -112,7 +111,7 @@ function Card({ data }) {
             </button>
           )}
 
-          {/* 3️⃣ Logged in & user has booked → Cancel Booking */}
+          {/* Logged in & user has booked → Cancel Booking */}
           {isLoggedIn && isBookedByUser && (
             <button
               className="w-full py-2 bg-yellow-500 text-white font-medium rounded-xl hover:bg-yellow-600 transition-all duration-300 shadow-md flex justify-center items-center gap-2"
@@ -123,7 +122,7 @@ function Card({ data }) {
             </button>
           )}
 
-          {/* 4️⃣ Logged in & booked by someone else → Already Booked (disabled) */}
+          {/* Logged in & booked by someone else → Already Booked (disabled) */}
           {isLoggedIn && isBookedByOthers && (
             <button
               className="w-full py-2 bg-gray-400 text-white font-medium rounded-xl cursor-not-allowed shadow-md flex justify-center items-center gap-2"
@@ -134,7 +133,7 @@ function Card({ data }) {
             </button>
           )}
 
-          {/* 5️⃣ Owner → Delete Listing */}
+          {/* Owner → Delete Listing */}
           {isLoggedIn && isOwner && !isBookedByOthers && (
             <button
               className="w-full py-2 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-all duration-300 shadow-md flex items-center gap-2 justify-center"

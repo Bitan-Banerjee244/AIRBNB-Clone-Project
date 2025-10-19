@@ -3,9 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setCurrentUser } from "../store/userSlice";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { useUser } from "../contexts/userContext";
 
@@ -25,7 +23,6 @@ function Signup() {
         { email, password },
         { withCredentials: true }
       );
-      // console.log(response.data);
       toast.success(response?.data.message);
       navigate("/");
       reloadUser();

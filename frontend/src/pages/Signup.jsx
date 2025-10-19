@@ -4,7 +4,6 @@ import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { useUser } from "../contexts/userContext";
 

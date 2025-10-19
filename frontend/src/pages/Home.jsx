@@ -22,13 +22,13 @@ function Home() {
         );
 
   // Then filter by search term
-  const filteredListings = categoryFiltered.filter((listing) =>
-    listing.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredListings = (categoryFiltered || []).filter((listing) =>
+    listing?.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <>
-      <Nav setSearchTerm={setSearchTerm} /> {/* Pass setter to Nav */}
+      <Nav setSearchTerm={setSearchTerm} />
 
       <div className="absolute w-screen min-h-[500px] text-black mt-[170px] p-10">
         <Hero />

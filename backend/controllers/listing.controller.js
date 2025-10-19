@@ -27,7 +27,6 @@ export const createListing = async (req, res) => {
             image3,
         });
 
-        // Add listing ID to user's listings array
         await User.findByIdAndUpdate(
             host,
             { $push: { listings: newListing._id } },

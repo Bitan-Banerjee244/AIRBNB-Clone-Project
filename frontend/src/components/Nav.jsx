@@ -178,7 +178,7 @@ function Nav({ setSearchTerm }) {
             onClick={() => setSelectedCategory(item.name)}
             className={`flex justify-center items-center flex-col p-4 cursor-pointer rounded-xl transition-all duration-300 ${
               selectedCategory === item.name
-                ? "bg-green-200 scale-105 shadow-md"
+                ? "bg-orange-100 scale-105 shadow-md"
                 : "hover:bg-gray-200"
             }`}
           >

@@ -25,7 +25,7 @@ function CreateBooking() {
         withCredentials: true,
       });
       setHouseData(response?.data?.house);
-      console.log(response?.data?.house);
+      // console.log(response?.data?.house);
     } catch (error) {
       console.log(`Cannot Get Data of House, ${Error}`);
     }
@@ -58,7 +58,7 @@ function CreateBooking() {
       reloadUser();
       reloadListings();
       toast.success("Booking was successful!");
-      console.log(response?.data);
+      // console.log(response?.data);
       navigate("/");
     } catch (error) {
       toast.error(error?.response?.data?.message);

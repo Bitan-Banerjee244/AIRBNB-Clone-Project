@@ -52,7 +52,7 @@ function CreateListing() {
         }
       );
       toast.success("List Created Successfully");
-      console.log(response.data);
+      // console.log(response.data);
       navigate("/");
       reloadListings();
       reloadUser();

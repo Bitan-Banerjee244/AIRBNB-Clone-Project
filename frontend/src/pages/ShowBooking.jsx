@@ -21,7 +21,7 @@ function ShowBooking() {
       let response = await axios.delete(
         `${SERVER_URL}/api/v2/cancelbooking/${bookingId}`
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       toast.success("Booking Cancelled Successfully!");
       reloadListings();
       reloadUser();
@@ -87,7 +87,7 @@ function ShowBooking() {
                 {/* Cancel/Delete Button */}
                 <div className="flex justify-end mt-2">
                   <button
-                    className="flex items-center gap-1 bg-orange-600 text-white py-1 px-2 rounded-md hover:bg-orange-700 transition text-sm"
+                    className="flex items-center gap-1 bg-orange-600 text-white py-3 px-8 rounded-md hover:bg-orange-700 transition text-md"
                     onClick={() => handleCancelBooking(booking?._id)}
                   >
                     <MdCancel />

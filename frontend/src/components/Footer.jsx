@@ -1,5 +1,3 @@
-import React from "react";
-
 function Footer() {
   return (
     <footer className="bg-gray-300 text-gray-800 mt-10">
@@ -8,36 +6,66 @@ function Footer() {
         {/* About */}
         <div className="space-y-2">
           <h3 className="font-semibold text-lg">About</h3>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">How it works</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Newsroom</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Investors</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Careers</p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            How it works
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Newsroom
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Investors
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Careers
+          </p>
         </div>
 
         {/* Community */}
         <div className="space-y-2">
           <h3 className="font-semibold text-lg">Community</h3>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Diversity & Belonging</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Accessibility</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Frontline Stays</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Airbnb Associates</p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Diversity & Belonging
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Accessibility
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Frontline Stays
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Airbnb Associates
+          </p>
         </div>
 
         {/* Host */}
         <div className="space-y-2">
           <h3 className="font-semibold text-lg">Host</h3>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Host your home</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Host an Experience</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Responsible hosting</p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Host your home
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Host an Experience
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Responsible hosting
+          </p>
         </div>
 
         {/* Support */}
         <div className="space-y-2">
           <h3 className="font-semibold text-lg">Support</h3>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Help Center</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Cancellation Options</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">Safety Information</p>
-          <p className="text-sm hover:text-orange-500 cursor-pointer">COVID-19 Updates</p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Help Center
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Cancellation Options
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            Safety Information
+          </p>
+          <p className="text-sm hover:text-orange-500 cursor-pointer">
+            COVID-19 Updates
+          </p>
         </div>
       </div>
 
