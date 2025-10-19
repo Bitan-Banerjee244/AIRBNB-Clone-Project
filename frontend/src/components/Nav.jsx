@@ -15,13 +15,13 @@ import { setCurrentUser } from "../store/userSlice";
 import toast from "react-hot-toast";
 import { useUser } from "../contexts/userContext";
 
-function Nav() {
-  let currentUser = useSelector((state) => state.user.currentUser);
-  let [showPopUpMenu, setShowPopUpMenu] = useState(false);
-  let navigate = useNavigate();
-  let dispatch = useDispatch();
+function Nav({ setSearchTerm }) {
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const [showPopUpMenu, setShowPopUpMenu] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const popupRef = useRef(null);
-  const { SERVER_URL } = useUser();
+  const { SERVER_URL, setSelectedCategory, selectedCategory } = useUser();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -38,24 +38,51 @@ function Nav() {
 
   const handleLogOut = async () => {
     try {
-      let response = await axios.get(`${SERVER_URL}/api/v2/logout`, {
+      const response = await axios.get(`${SERVER_URL}/api/v2/logout`, {
         withCredentials: true,
       });
       dispatch(setCurrentUser(null));
       toast.success(response?.data?.message);
       navigate("/login");
     } catch (error) {
-      console.log(`Error in Logout`);
+      console.log("Error in Logout", error);
     }
   };
+
+  const categories = [
+    {
+      name: "All",
+      icon: <FaHouseChimney className="w-[50px] h-[30px] mb-2" />,
+    },
+    {
+      name: "Apartment",
+      icon: <FaBuilding className="w-[50px] h-[30px] mb-2" />,
+    },
+    { name: "Villa", icon: <MdVilla className="w-[50px] h-[30px] mb-2" /> },
+    {
+      name: "Bungalow",
+      icon: <MdBungalow className="w-[50px] h-[30px] mb-2" />,
+    },
+    {
+      name: "Loft",
+      icon: <PiWarehouseFill className="w-[50px] h-[30px] mb-2" />,
+    },
+    {
+      name: "Shared Room",
+      icon: <BsHousesFill className="w-[50px] h-[30px] mb-2" />,
+    },
+    {
+      name: "Mansion",
+      icon: <GiFamilyHouse className="w-[50px] h-[30px] mb-2" />,
+    },
+  ];
 
   return (
     <div className="w-screen fixed top-0 left-0 z-50">
       {/* Top Nav */}
       <div
         id="top-nav"
-        className="w-screen h-[100px] flex items-center justify-around px-4 border-b-2 
-                   border-[#80808044] bg-white relative z-50"
+        className="w-screen h-[100px] flex items-center justify-around px-4 border-b-2 border-[#80808044] bg-white relative z-50"
       >
         {/* Logo */}
         <div className="w-[120px] md:w-[15vw] h-full flex items-center">
@@ -67,21 +94,19 @@ function Nav() {
         </div>
 
         {/* Search Bar */}
-        <div
-          className="hidden lg:flex w-[700px] h-[50px] bg-white rounded-[30px] px-4 
-                        shadow-lg items-center border-2 border-solid border-gray-300"
-        >
+        <div className="hidden lg:flex w-[700px] h-[50px] bg-white rounded-[30px] px-4 shadow-lg items-center border-2 border-gray-300">
           <input
             type="text"
             placeholder="Search for homes and mansion"
-            className="flex-1 h-[80%] text-gray-700 px-4 bg-transparent outline-none  border-r-2 border-solid border-orange-500 "
+            className="flex-1 h-[80%] text-gray-700 px-4 bg-transparent outline-none border-r-2 border-orange-500"
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <FaSearch className="mx-4 text-red-600 cursor-pointer text-xl" />
         </div>
 
         {/* Right Section */}
-        <div className="w-[100px] h-[60%] rounded-[30px] flex items-center justify-evenly shadow-md relative border-2 border-solid border-gray-200">
-          <div className="w-[30px] h-[30px] rounded-full bg-violet-900 text-white flex items-center justify-center cursor-pointer border-2 border-solid border-purple-700">
+        <div className="w-[100px] h-[60%] rounded-[30px] flex items-center justify-evenly shadow-md relative border-2 border-gray-200">
+          <div className="w-[30px] h-[30px] rounded-full bg-violet-900 text-white flex items-center justify-center cursor-pointer border-2 border-purple-700">
             {currentUser?.userName?.[0]?.toUpperCase() || "U"}
           </div>
           <GiHamburgerMenu
@@ -92,8 +117,7 @@ function Nav() {
           {showPopUpMenu && (
             <div
               id="popup"
-              className="absolute w-[200px] h-[200px] top-[80px] right-0 shadow-lg border-2 border-gray-200 
-                         border-solid flex flex-col justify-around p-4 z-60 bg-white"
+              className="absolute w-[200px] h-[200px] top-[80px] right-0 shadow-lg border-2 border-gray-200 flex flex-col justify-around p-4 z-60 bg-white"
               ref={popupRef}
             >
               {!currentUser && (
@@ -118,7 +142,7 @@ function Nav() {
                 className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200"
                 onClick={() => {
                   if (currentUser) {
-                    navigate("/createlisting"); // programmatic navigation
+                    navigate("/createlisting");
                   } else {
                     alert("Please login");
                   }
@@ -130,7 +154,7 @@ function Nav() {
                 className="w-full h-[25%] hover:bg-gray-300 cursor-pointer p-2 border-b-2 border-gray-200"
                 onClick={() => {
                   if (currentUser) {
-                    navigate("/yourbooking"); // navigate to booking page
+                    navigate("/yourbooking");
                   } else {
                     alert("Please login");
                   }
@@ -146,38 +170,22 @@ function Nav() {
       {/* Bottom Nav */}
       <div
         id="bottom-nav"
-        className="flex justify-start md:justify-center items-center w-screen h-[90px] gap-[50px] 
-                   overflow-x-auto overflow-y-hidden p-2 whitespace-nowrap fixed left-0 top-[100px] 
-                   bg-white z-40 border-b-2 border-gray-200"
+        className="flex justify-start md:justify-center items-center w-screen h-[90px] gap-[50px] overflow-x-auto overflow-y-hidden p-2 whitespace-nowrap fixed left-0 top-[100px] bg-white z-40 border-b-2 border-gray-200"
       >
-        <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <FaHouseChimney className="w-[50px] h-[30px] mb-2" />
-          <span>Rooms</span>
-        </div>
-        <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <FaBuilding className="w-[50px] h-[30px] mb-2" />
-          <span>Apartment</span>
-        </div>
-        <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <MdVilla className="w-[50px] h-[30px] mb-2" />
-          <span>Villa</span>
-        </div>
-        <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <MdBungalow className="w-[50px] h-[30px] mb-2" />
-          <span>Bungalow</span>
-        </div>
-        <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <PiWarehouseFill className="w-[50px] h-[30px] mb-2" />
-          <span>Loft</span>
-        </div>
-        <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <BsHousesFill className="w-[50px] h-[30px] mb-2" />
-          <span>Shared Room</span>
-        </div>
-        <div className="flex justify-center items-center flex-col hover:bg-gray-200 p-4 cursor-pointer">
-          <GiFamilyHouse className="w-[50px] h-[30px] mb-2" />
-          <span>Mansion</span>
-        </div>
+        {categories.map((item) => (
+          <div
+            key={item.name}
+            onClick={() => setSelectedCategory(item.name)}
+            className={`flex justify-center items-center flex-col p-4 cursor-pointer rounded-xl transition-all duration-300 ${
+              selectedCategory === item.name
+                ? "bg-green-200 scale-105 shadow-md"
+                : "hover:bg-gray-200"
+            }`}
+          >
+            {item.icon}
+            <span>{item.name}</span>
+          </div>
+        ))}
       </div>
     </div>
   );

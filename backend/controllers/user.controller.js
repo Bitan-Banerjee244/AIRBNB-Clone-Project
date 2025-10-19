@@ -15,7 +15,7 @@ export const getCurrentUser = async (req, res) => {
             .select("-password")
             .populate({
                 path: "listings",
-                select: "title description price image1 image2 image3 isBooked "
+                select: "title description price image1 image2 image3 isBooked category"
             })
             .populate({
                 path: "bookings",

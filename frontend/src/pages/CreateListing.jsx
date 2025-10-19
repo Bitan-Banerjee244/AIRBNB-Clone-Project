@@ -198,7 +198,6 @@ function CreateListing() {
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value="">Select Category</option>
-              <option value="Rooms">Rooms</option>
               <option value="Apartment">Apartment</option>
               <option value="Villa">Villa</option>
               <option value="Bungalow">Bungalow</option>
