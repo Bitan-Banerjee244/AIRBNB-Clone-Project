@@ -11,13 +11,19 @@ export const getCurrentUser = async (req, res) => {
             })
         }
 
-        let user = await User.findById(userId).select("-password").populate({
-            path: "listings",
-            select: "title description price image1 image2 image3 isBooked"
-        }).populate({
-            path: "bookings",
-            select: "rentingHouse",
-        });
+        let user = await User.findById(userId)
+            .select("-password")
+            .populate({
+                path: "listings",
+                select: "title description price image1 image2 image3 isBooked "
+            })
+            .populate({
+                path: "bookings",
+                populate: {
+                    path: "rentingHouse",
+                    select: "title description price image1 image2 image3 isBooked category"
+                }
+            });
 
         if (!user) {
             return res.status(500).json({

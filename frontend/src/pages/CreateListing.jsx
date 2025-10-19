@@ -75,7 +75,7 @@ function CreateListing() {
     <div className="relative flex flex-col lg:flex-row justify-between gap-6">
       {/* Left Section: Create Listing */}
       <div className="w-[100%] lg:w-[70%] lg:h-screen flex flex-col">
-        <h1 className="text-3xl font-semibold mb-2 gap-2 flex items-center justify-center lg:justify-start">
+        <h1 className="text-3xl font-semibold mb-2 gap-2 flex items-center justify-center lg:justify-start ml-2">
           <IoChevronBackCircle
             className="text-red-500 cursor-pointer"
             onClick={() => navigate("/")}
