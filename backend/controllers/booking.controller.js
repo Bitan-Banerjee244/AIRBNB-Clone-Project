@@ -25,7 +25,7 @@ export const createBooking = async (req, res) => {
 
         await Listing.findByIdAndUpdate(
             rentingHouse,
-            { isBooked: true },
+            { isBooked: true, bookedBy: customer },
             { new: true }
         );
 
@@ -44,3 +44,47 @@ export const createBooking = async (req, res) => {
         })
     }
 }
+
+export const cancelBooking = async (req, res) => {
+    try {
+        const { bookingId } = req.params;
+
+        // Find the booking
+        const booking = await Booking.findById(bookingId);
+        if (!booking) {
+            return res.status(404).json({
+                success: false,
+                message: "No booking found!"
+            });
+        }
+
+        // Update the Listing to mark it as not booked
+        await Listing.findByIdAndUpdate(
+            booking.rentingHouse,
+            { isBooked: false, bookedBy: null },
+            { new: true }
+        );
+
+        // Remove the booking reference from the User
+        await User.findByIdAndUpdate(
+            booking.customer,
+            { $pull: { bookings: booking._id } },
+            { new: true }
+        );
+
+        // Optionally, delete the booking record itself
+        await Booking.findByIdAndDelete(bookingId);
+
+        return res.status(200).json({
+            success: true,
+            message: "Booking cancelled successfully!"
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Error cancelling booking",
+            error: error.message
+        });
+    }
+};

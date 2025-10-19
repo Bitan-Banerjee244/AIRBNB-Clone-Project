@@ -1,10 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoChevronBackCircle } from "react-icons/io5";
 import plus from "../assets/image.png";
-import house1 from "../assets/house1.webp";
-import house2 from "../assets/house2.webp";
-import house3 from "../assets/house3.webp";
 import ListingCard from "../components/ListingCard";
 import axios from "axios";
 import useListing from "../hooks/useListing";
@@ -44,10 +41,14 @@ function CreateListing() {
 
     try {
       setLoader(true);
-      let response = await axios.post("http://localhost:8000/api/v2/createlisting", formData, {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      let response = await axios.post(
+        "http://localhost:8000/api/v2/createlisting",
+        formData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       toast.success("List Created Successfully");
       console.log(response.data);
       navigate("/");
@@ -61,14 +62,6 @@ function CreateListing() {
     }
   };
 
-  const tempdata = {
-    title: "Luxury House",
-    description: "Enjoy Night with amazing interior",
-    price: "5000",
-    image1: house1,
-    image2: house2,
-    image3: house3,
-  };
 
   return (
     <div className="relative flex flex-col lg:flex-row justify-between gap-6">
@@ -225,8 +218,8 @@ function CreateListing() {
       </div>
 
       {/* Right Section: Your Listings */}
-      <div className="lg:w-[30%] w-[100%] lg:h-screen overflow-y-auto mt-6 lg:mt-0">
-        <h1 className="text-3xl font-semibold mb-3 ml-8">Your Listings</h1>
+      <div className="lg:w-[30%] w-[100%] lg:h-screen overflow-y-auto mt-6 lg:mt-0 bg-green-100">
+        <h1 className="text-2xl font-semibold mb-2 ml-8">Your Listings</h1>
         <div
           id="listing-Container"
           className="flex flex-col items-center justify-start gap-4 px-4"

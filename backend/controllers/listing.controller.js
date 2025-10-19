@@ -24,7 +24,7 @@ export const createListing = async (req, res) => {
             host,
             image1,
             image2,
-            image3
+            image3,
         });
 
         // Add listing ID to user's listings array

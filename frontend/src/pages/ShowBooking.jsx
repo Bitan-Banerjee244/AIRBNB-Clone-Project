@@ -1,11 +1,32 @@
-import { AiOutlineDelete } from "react-icons/ai";
+import axios from "axios";
 import { IoChevronBackCircle } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { MdCancel } from "react-icons/md";
+import useCurrentUser from "../hooks/useCurrentUser";
+import useListing from "../hooks/useListing";
+import toast from "react-hot-toast";
 
 function ShowBooking() {
   const navigate = useNavigate();
   let { currentUser } = useSelector((state) => state.user);
+  let { reloadUser } = useCurrentUser();
+  let { reloadListings } = useListing();
+
+  const handleCancelBooking = async (bookingId) => {
+    try {
+      let response = await axios.delete(
+        `http://localhost:8000/api/v2/cancelbooking/${bookingId}`
+      );
+      console.log(response?.data);
+      toast.success("Booking Cancelled Successfully!");
+      reloadListings();
+      reloadUser();
+      navigate("/");
+    } catch (error) {
+      console.log(`Error Occurred in Cancel Booking Component !! : ${error}`);
+    }
+  };
 
   return (
     <div className="w-screen min-h-screen p-4 bg-gray-50">
@@ -62,9 +83,12 @@ function ShowBooking() {
 
                 {/* Cancel/Delete Button */}
                 <div className="flex justify-end mt-2">
-                  <button className="flex items-center gap-1 bg-red-600 text-white py-1 px-2 rounded-md hover:bg-red-700 transition text-sm">
-                    <AiOutlineDelete />
-                    Cancel Booking
+                  <button
+                    className="flex items-center gap-1 bg-orange-600 text-white py-1 px-2 rounded-md hover:bg-orange-700 transition text-sm"
+                    onClick={() => handleCancelBooking(booking?._id)}
+                  >
+                    <MdCancel />
+                    Cancel your booking
                   </button>
                 </div>
               </div>

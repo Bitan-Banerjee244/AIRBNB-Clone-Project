@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import useListing from "../hooks/useListing";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 function Card({ data }) {
   const { currentUser } = useSelector((state) => state.user);
   const { reloadListings } = useListing();
+  const { reloadUser } = useCurrentUser();
   let navigate = useNavigate();
   // console.log(data);
   const isLoggedIn = !!currentUser;
@@ -25,6 +27,7 @@ function Card({ data }) {
         `http://localhost:8000/api/v2/deleteData/${data?._id}`
       );
       console.log(response.data);
+      reloadUser();
       reloadListings();
       toast.success("Listing Deleted Successfully!!");
     } catch (error) {
@@ -107,7 +110,7 @@ function Card({ data }) {
           {isLoggedIn && isBookedByUser && (
             <button
               className="w-full py-2 bg-yellow-500 text-white font-medium rounded-xl hover:bg-yellow-600 transition-all duration-300 shadow-md"
-              onClick={() => console.log("Cancel Booking")}
+              onClick={() => navigate("/yourbooking")}
             >
               Cancel Booking
             </button>
